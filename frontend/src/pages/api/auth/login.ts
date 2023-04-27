@@ -1,30 +1,31 @@
+// /pages/api/auth/login.ts
+import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
-import type { NextApiRequest, NextApiResponse } from 'next'
-
-type LoginRequestBody = {
-  email: string
-  password: string
-}
 
 const login = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
-    try {
-      const { email, password } = req.body as LoginRequestBody
-      const response = await axios.post(
-        `${process.env.SERVICE_DOMAIN}/auth/login`,
-        {
-          email,
-          password
-        }
-      )
+  try {
+    // Forward the request to the backend
+    const backendRes = await axios.post(
+      `${process.env.SERVICE_DOMAIN}/auth/login`,
+      req.body,
+      {
+        headers: {
+          cookie: req.headers.cookie || ''
+        },
+        withCredentials: true
+      }
+    )
 
-      res.status(200).json(response.data)
-    } catch (error: any) {
-      res.status(error.response.status).json({ message: error.message })
+    // バックエンドから受け取ったセッション Cookie を設定する
+    const setCookie = backendRes.headers['set-cookie']
+    if (setCookie) {
+      res.setHeader('Set-Cookie', setCookie)
     }
-  } else {
-    res.setHeader('Allow', 'POST')
-    res.status(405).end('Method Not Allowed')
+
+    // バックエンドからの応答を転送する
+    res.status(backendRes.status).json(backendRes.data)
+  } catch (error: any) {
+    res.status(error.response.status).json(error.response.data)
   }
 }
 

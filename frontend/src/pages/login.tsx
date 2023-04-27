@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useAuth } from '@/hooks/useAuth'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
@@ -8,25 +7,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const { setUser } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
 
     try {
-      const response = await axios.post('/api/auth/login', { email, password })
-
-      // ログイン情報を保存
-      setUser(response.data.user)
-
-      // トークンをlocalStorageに保存し、ダッシュボードにリダイレクト
-      const userData = {
-        token: response.data.access_token,
-        user: response.data.user
-      }
-      localStorage.setItem('userData', JSON.stringify(userData))
-
+      await axios.post('/api/auth/login', { email, password })
       router.push('/')
     } catch (error) {
       setError('メールアドレスまたはパスワードが間違っています。')
