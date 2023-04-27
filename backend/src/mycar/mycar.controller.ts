@@ -26,7 +26,7 @@ export class MyCarController {
     @Req() req,
     @Body() createMyCarDto: CreateMyCarDto
   ): Promise<MyCar> {
-    const userId = req.user.id
+    const userId = req.session.user._id
     createMyCarDto.userId = userId
     return this.myCarService.create(createMyCarDto)
   }
@@ -34,7 +34,7 @@ export class MyCarController {
   @Get()
   @UseGuards(SessionGuard)
   async findMyCars(@Req() req): Promise<MyCar[]> {
-    const userId = req.user.id
+    const userId = req.session.user._id
     return this.myCarService.findByUserId(userId)
   }
 
@@ -56,7 +56,7 @@ export class MyCarController {
     @Param('id') id: string,
     @Body() updateMyCarDto: CreateMyCarDto
   ) {
-    const userId = req.user.id
+    const userId = req.session.user._id
     await this.myCarService.update(id, userId, updateMyCarDto)
   }
 
@@ -64,7 +64,7 @@ export class MyCarController {
   @UseGuards(SessionGuard)
   @HttpCode(204)
   async delete(@Req() req, @Param('id') id: string) {
-    const userId = req.user.id
+    const userId = req.session.user._id
     await this.myCarService.delete(id, userId)
   }
 }

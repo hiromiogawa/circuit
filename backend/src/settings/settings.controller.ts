@@ -32,7 +32,7 @@ export class SettingsController {
     @Req() req,
     @Body() createSettingDto: CreateSettingDto
   ): Promise<Setting> {
-    const userId = req.user.id
+    const userId = req.session.user._id
     const mycarId = createSettingDto.mycarId
     if (await this.myCarsService.isUserRelatedToMyCar(userId, mycarId)) {
       return this.settingsService.create(createSettingDto)
@@ -61,7 +61,7 @@ export class SettingsController {
     @Param('id') id: string,
     @Body() updateSettingDto: CreateSettingDto
   ): Promise<void> {
-    const userId = req.user.id
+    const userId = req.session.user._id
     if (await this.settingsService.isUserRelatedToSetting(userId, id)) {
       await this.settingsService.update(id, updateSettingDto)
     } else {
@@ -73,7 +73,7 @@ export class SettingsController {
   @UseGuards(SessionGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Req() req, @Param('id') id: string): Promise<void> {
-    const userId = req.user.id
+    const userId = req.session.user._id
     if (await this.settingsService.isUserRelatedToSetting(userId, id)) {
       await this.settingsService.delete(id)
     } else {

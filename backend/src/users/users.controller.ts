@@ -58,9 +58,8 @@ export class UsersController {
   @UseGuards(SessionGuard)
   @HttpCode(204)
   async updatePassword(@Req() req, @Body('password') newPassword: string) {
-    const userId = req.user.id
-    console.log(userId)
-    await this.usersService.updatePassword(userId, newPassword)
+    const _id = req.session.user._id
+    await this.usersService.updatePassword(_id, newPassword)
   }
 
   // Update email
@@ -68,15 +67,15 @@ export class UsersController {
   @UseGuards(SessionGuard)
   @HttpCode(204) // 追加
   async updateEmail(@Req() req, @Body('email') newEmail: string) {
-    const userId = req.user.eid
-    await this.usersService.updateEmail(userId, newEmail)
+    const _id = req.session.user._id
+    await this.usersService.updateEmail(_id, newEmail)
   }
 
   @Delete()
   @UseGuards(SessionGuard)
   @HttpCode(204) // 追加
   async delete(@Req() req) {
-    const userId = req.user.id
-    await this.usersService.delete(userId)
+    const _id = req.session.user._id
+    await this.usersService.delete(_id)
   }
 }

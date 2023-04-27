@@ -32,7 +32,7 @@ export class TuningController {
     @Req() req,
     @Body() createTuningDto: CreateTuningDto
   ): Promise<Tuning> {
-    const userId = req.user.id
+    const userId = req.session.user._id
     const mycarId = createTuningDto.mycarId
     if (await this.myCarsService.isUserRelatedToMyCar(userId, mycarId)) {
       return this.tuningService.create(createTuningDto)
@@ -44,7 +44,7 @@ export class TuningController {
   @Get(':id')
   @UseGuards(SessionGuard)
   async findOne(@Req() req, @Param('id') id: string): Promise<Tuning> {
-    const user = req.user
+    const user = req.session.user
     if (!(await this.tuningService.isUserRelatedToTuning(user._id, id))) {
       throw new UnauthorizedException()
     }
@@ -64,7 +64,7 @@ export class TuningController {
     @Param('id') id: string,
     @Body() updateTuningDto: CreateTuningDto
   ): Promise<void> {
-    const userId = req.user.id
+    const userId = req.session.user._id
 
     if (await this.tuningService.isUserRelatedToTuning(userId, id)) {
       await this.tuningService.update(id, updateTuningDto)
@@ -77,7 +77,7 @@ export class TuningController {
   @UseGuards(SessionGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Req() req, @Param('id') id: string): Promise<void> {
-    const userId = req.user.id
+    const userId = req.session.user._id
     if (await this.tuningService.isUserRelatedToTuning(userId, id)) {
       throw new UnauthorizedException()
     } else {
