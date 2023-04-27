@@ -9,11 +9,11 @@ import {
   Req,
   ValidationPipe,
   UseGuards,
-  HttpCode,
-} from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from './users.service';
-import { AuthGuard } from '@nestjs/passport';
+  HttpCode
+} from '@nestjs/common'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UsersService } from './users.service'
+import { SessionGuard } from '../auth/session.guard'
 
 @Controller('users')
 export class UsersController {
@@ -23,61 +23,60 @@ export class UsersController {
   @Post()
   @HttpCode(201)
   async create(@Body(ValidationPipe) createUser: CreateUserDto) {
-    return await this.usersService.create(createUser);
+    return await this.usersService.create(createUser)
   }
 
-  // // このまま使うのはまずいパスワード丸見え
-  // @Get()
-  // async findAll() {
-  //   return await this.usersService.findAll();
-  // }
+  // このまま使うのはまずいパスワード丸見え
+  @Get('all')
+  async findAll() {
+    return await this.usersService.findAll()
+  }
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   async findMy(@Req() req) {
-    const _id = req.user.id;
-    return await this.usersService.findOne(_id);
+    const _id = req.session.user._id
+    return await this.usersService.findOne(_id)
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard('jwt'))
   async findOne(@Param('id') _id: string) {
-    return await this.usersService.findOne(_id);
+    return await this.usersService.findOne(_id)
   }
 
   // Update username
   @Put('update-name')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   @HttpCode(204)
   async updateUsername(@Req() req, @Body('username') newUsername: string) {
-    const userId = req.user.id;
-    await this.usersService.updateUsername(userId, newUsername);
+    const userId = req.user.id
+    await this.usersService.updateUsername(userId, newUsername)
   }
 
   // Update password
   @Put('update-password')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   @HttpCode(204)
   async updatePassword(@Req() req, @Body('password') newPassword: string) {
-    const userId = req.user.id;
-    console.log(userId);
-    await this.usersService.updatePassword(userId, newPassword);
+    const userId = req.user.id
+    console.log(userId)
+    await this.usersService.updatePassword(userId, newPassword)
   }
 
   // Update email
   @Put('update-email')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   @HttpCode(204) // 追加
   async updateEmail(@Req() req, @Body('email') newEmail: string) {
-    const userId = req.user.eid;
-    await this.usersService.updateEmail(userId, newEmail);
+    const userId = req.user.eid
+    await this.usersService.updateEmail(userId, newEmail)
   }
 
   @Delete()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   @HttpCode(204) // 追加
   async delete(@Req() req) {
-    const userId = req.user.id;
-    await this.usersService.delete(userId);
+    const userId = req.user.id
+    await this.usersService.delete(userId)
   }
 }

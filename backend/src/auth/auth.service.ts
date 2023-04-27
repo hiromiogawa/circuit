@@ -1,39 +1,38 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
-import { LoginUserDto } from './dto/login-user.dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { UsersService } from 'src/users/users.service'
+import { compare } from 'bcrypt'
+import { LoginUserDto } from './dto/login-user.dto'
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  async validateUser({ password, email }: LoginUserDto) {
+  async validateUser(email: string, password: string) {
     // ユーザーを検索 (emailで検索)
-    const foundUser = await this.usersService.findByEmail(email);
+    const foundUser = await this.usersService.findByEmail(email)
     // ユーザーが存在し、パスワードが一致する場合
     if (foundUser && (await compare(password, foundUser.password))) {
-      return true;
+      return true
     } else {
-      false;
+      return false
     }
   }
-  async login(loginUser: LoginUserDto) {
+
+  async login(loginUser: LoginUserDto, req: any) {
     // ユーザーを検索 (emailで検索)
-    const foundUser = await this.usersService.findByEmail(loginUser.email);
+    const foundUser = await this.usersService.findByEmail(loginUser.email)
 
     // ユーザーが存在し、パスワードが一致する場合
-    if (this.validateUser(loginUser)) {
-      const payload = { id: foundUser._id };
+    if (await this.validateUser(loginUser.email, loginUser.password)) {
       return {
-        access_token: this.jwtService.sign(payload),
-      };
+        user: {
+          _id: foundUser._id,
+          username: foundUser.username
+        }
+      }
     } else {
       // ユーザーが存在しないか、パスワードが一致しない場合はエラーをスロー
-      throw new UnauthorizedException('Invalid email or password');
+      throw new UnauthorizedException('Invalid email or password')
     }
   }
 }

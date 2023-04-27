@@ -8,12 +8,12 @@ import {
   Req,
   Put,
   Delete,
-  HttpCode,
-} from '@nestjs/common';
-import { MyCarService } from './mycar.service';
-import { CreateMyCarDto } from './dto/create-mycar.dto';
-import { MyCar } from './schemas/mycar.schema';
-import { AuthGuard } from '@nestjs/passport';
+  HttpCode
+} from '@nestjs/common'
+import { MyCarService } from './mycar.service'
+import { CreateMyCarDto } from './dto/create-mycar.dto'
+import { MyCar } from './schemas/mycar.schema'
+import { SessionGuard } from '../auth/session.guard'
 
 @Controller('mycar')
 export class MyCarController {
@@ -21,50 +21,50 @@ export class MyCarController {
 
   @Post()
   @HttpCode(201)
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   async create(
     @Req() req,
-    @Body() createMyCarDto: CreateMyCarDto,
+    @Body() createMyCarDto: CreateMyCarDto
   ): Promise<MyCar> {
-    const userId = req.user.id;
-    createMyCarDto.userId = userId;
-    return this.myCarService.create(createMyCarDto);
+    const userId = req.user.id
+    createMyCarDto.userId = userId
+    return this.myCarService.create(createMyCarDto)
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   async findMyCars(@Req() req): Promise<MyCar[]> {
-    const userId = req.user.id;
-    return this.myCarService.findByUserId(userId);
+    const userId = req.user.id
+    return this.myCarService.findByUserId(userId)
   }
 
   @Get('user/:id')
   async findByUserId(@Param('id') userId: string): Promise<MyCar[]> {
-    return this.myCarService.findByUserId(userId);
+    return this.myCarService.findByUserId(userId)
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<MyCar> {
-    return this.myCarService.findOne(id);
+    return this.myCarService.findOne(id)
   }
 
   @Put(':id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   @HttpCode(204)
   async update(
     @Req() req,
     @Param('id') id: string,
-    @Body() updateMyCarDto: CreateMyCarDto,
+    @Body() updateMyCarDto: CreateMyCarDto
   ) {
-    const userId = req.user.id;
-    await this.myCarService.update(id, userId, updateMyCarDto);
+    const userId = req.user.id
+    await this.myCarService.update(id, userId, updateMyCarDto)
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(SessionGuard)
   @HttpCode(204)
   async delete(@Req() req, @Param('id') id: string) {
-    const userId = req.user.id;
-    await this.myCarService.delete(id, userId);
+    const userId = req.user.id
+    await this.myCarService.delete(id, userId)
   }
 }
