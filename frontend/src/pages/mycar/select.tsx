@@ -1,8 +1,9 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import checkAuth, { CheckAuthType } from '@/functions/checkAuth'
 import getCars from '@/functions/getCars'
 import getManufacturers from '@/functions/getManufacturers'
+import createMyCar from '@/functions/createMyCar'
 
 import type { CarType, ManufacturerType } from '@/types/cars'
 
@@ -23,16 +24,28 @@ const SelectCar = ({
   manufacuturers
 }: PropTypes) => {
   const [selectValue, setSelectValue] = useState<CarType[] | []>([])
+  const [selectedCar, setSelectedCar] = useState<string>('')
 
   const router = useRouter()
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value)
-
     const sortCars = cars
       ? cars.filter((car) => car.manufacturer.name === event.target.value)
       : []
     setSelectValue(sortCars)
+  }
+
+  const handleCarChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCar(event.target.value)
+  }
+
+  const handleClick = async () => {
+    const result = await createMyCar(selectedCar)
+    if (!result) {
+      console.error('Failed to create my car')
+    } else {
+      console.log('My car created successfully')
+    }
   }
 
   if (isAuthenticated && user) {
@@ -51,16 +64,19 @@ const SelectCar = ({
           </select>
         )}
 
-        {selectValue && (
-          <select>
-            <option value="">選択してください</option>
+        {selectValue.length > 0 && (
+          <select onChange={handleCarChange}>
+            <option>選択してください</option>
             {selectValue.map((car) => (
-              <option key={`${car.name}-${car.modelName}`}>
+              <option key={`${car.name}-${car.modelName}`} value={`${car._id}`}>
                 {car.name} {car.modelName}
               </option>
             ))}
           </select>
         )}
+        <button disabled={!selectedCar} onClick={handleClick}>
+          登録する
+        </button>
       </Layout>
     )
   }

@@ -1,23 +1,25 @@
 import axios from 'axios'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-type CreateMyCarDto = {
-  carId: string
-  userId: string
-}
-
 const createMyCar = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const createMyCarDto: CreateMyCarDto = req.body
+    const carId: string = req.body.carId
 
     try {
       const backendRes = await axios.post(
-        `${process.env.SERVICE_DOMAIN}/mycar/`,
-        createMyCarDto
+        `${process.env.SERVICE_DOMAIN}/mycar`,
+        { carId },
+        {
+          withCredentials: true, // クッキーを転送するために追加
+          headers: {
+            Cookie: req.headers.cookie || '' // クッキーをリクエストヘッダーに追加
+          }
+        }
       )
       const createdMyCar = backendRes.data
       res.status(201).json(createdMyCar)
     } catch (error: any) {
+      console.error('Error in API endpoint:', error.message)
       res.status(500).json({ message: error.message })
     }
   } else {
