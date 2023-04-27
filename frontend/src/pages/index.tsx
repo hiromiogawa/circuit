@@ -1,31 +1,32 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { checkAuth, CheckAuthType } from '@/functions/checkAuth'
 
-import axios from 'axios'
+import logout from '@/functions/logout'
+
 import { useRouter } from 'next/router'
+
+// components
+import Layout from '@/components/common/Layout'
 
 type PropTypes = CheckAuthType
 
 const Home = ({ isAuthenticated, user }: PropTypes) => {
   const router = useRouter()
 
-  const handleLogout = async () => {
-    try {
-      await axios.post('/api/auth/logout')
-      router.push('/login')
-    } catch (error) {
-      console.error('ログアウトに失敗しました:', error)
-    }
+  const handleClcik = async () => {
+    const isLogout = await logout()
+    if (isLogout) router.push('/login')
   }
 
   if (isAuthenticated && user) {
     return (
-      <>
-        <p>Welcome, {user.username}!</p>
-        <button onClick={handleLogout} className="...">
-          ログアウト
-        </button>
-      </>
+      <Layout>
+        <p>
+          {user.username}
+          <button>変更する</button>
+        </p>
+        <button onClick={handleClcik}>ログアウト</button>
+      </Layout>
     )
   } else {
     return <p>Please log in.</p>

@@ -5,14 +5,7 @@ import reset from 'styled-reset'
 import mediaQuery from '@/styles/functions/mediaQuery'
 
 // components
-import HeaderContents from '@/components/organisms/HeaderContents'
 import Contents from '@/components/common/Contents'
-import MainContents from '@/components/organisms/MainContents'
-import SideContents, {
-  SideContentsType
-} from '@/components/organisms/SideContents'
-import FooterContents from '@/components/organisms/FooterContents'
-
 const GlobalStyle = createGlobalStyle`
     ${reset}
     /* other styles */
@@ -20,41 +13,37 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
 
+    button{
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      padding: 0;
+      appearance: none;
+    }
+
     a {
         text-decoration: none;
     }
 
     body {
-      background-color: #f5f6f6
+      background-color: #FFF
     }
 `
 
 export type LayoutType = {
   children: React.ReactNode
-} & SideContentsType
+}
 
-const Layout = ({ children, categories, tags }: LayoutType) => {
+const Layout = ({ children }: LayoutType) => {
   return (
     <>
       <GlobalStyle />
-      <HeaderContents />
-      <StyledContents>
-        <MainContents>{children}</MainContents>
-        <SideContents categories={categories} tags={tags} />
-      </StyledContents>
-      <FooterContents />
+      <StyledContents>{children}</StyledContents>
     </>
   )
 }
 
 export default Layout
 
-const StyledContents = styled(Contents)`
-  display: flex;
-  justify-content: center;
-  margin-top: 56px;
-
-  ${mediaQuery('ct')} {
-    display: block;
-  }
-`
+const StyledContents = styled(Contents)``
