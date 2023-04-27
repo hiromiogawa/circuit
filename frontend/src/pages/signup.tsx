@@ -2,7 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-export default function SignUp() {
+const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -72,3 +72,5 @@ export default function SignUp() {
     </div>
   )
 }
+
+export default SignUp

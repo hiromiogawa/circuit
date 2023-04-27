@@ -4,21 +4,25 @@ import axios from 'axios'
 // types
 import type { UserType } from '@/types/users'
 
+// getStaticProps内のみで使用可能
 export type CheckAuthType = {
   isAuthenticated: boolean
   user?: Pick<UserType, '_id' | 'username'>
 }
 
-export const checkAuth = async (
+const checkAuth = async (
   context: GetServerSidePropsContext
 ): Promise<CheckAuthType> => {
   try {
-    const res = await axios.get('http://localhost:3000/auth/check-auth', {
-      headers: {
-        cookie: context.req.headers.cookie || ''
-      },
-      withCredentials: true
-    })
+    const res = await axios.get(
+      `${process.env.SERVICE_DOMAIN}/auth/check-auth`,
+      {
+        headers: {
+          cookie: context.req.headers.cookie || ''
+        },
+        withCredentials: true
+      }
+    )
 
     if (res.data.isAuthenticated) {
       return {
@@ -36,3 +40,5 @@ export const checkAuth = async (
     }
   }
 }
+
+export default checkAuth

@@ -16,6 +16,7 @@ const LoginPage = () => {
       await axios.post('/api/auth/login', { email, password })
       router.push('/')
     } catch (error) {
+      console.log(error)
       setError('メールアドレスまたはパスワードが間違っています。')
     }
   }

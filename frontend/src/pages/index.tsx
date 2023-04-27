@@ -1,5 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { checkAuth, CheckAuthType } from '@/functions/checkAuth'
+import checkAuth, { CheckAuthType } from '@/functions/checkAuth'
 
 import logout from '@/functions/logout'
 
@@ -8,12 +8,14 @@ import { useRouter } from 'next/router'
 // components
 import Layout from '@/components/common/Layout'
 
+import CircleButton from '@/components/atoms/button/CircleButton'
+
 type PropTypes = CheckAuthType
 
 const Home = ({ isAuthenticated, user }: PropTypes) => {
   const router = useRouter()
 
-  const handleClcik = async () => {
+  const handleLogout = async () => {
     const isLogout = await logout()
     if (isLogout) router.push('/login')
   }
@@ -21,11 +23,11 @@ const Home = ({ isAuthenticated, user }: PropTypes) => {
   if (isAuthenticated && user) {
     return (
       <Layout>
-        <p>
-          {user.username}
-          <button>変更する</button>
-        </p>
-        <button onClick={handleClcik}>ログアウト</button>
+        <p>{user.username}</p>
+
+        <CircleButton handleClcik={handleLogout} type="red">
+          SignOut
+        </CircleButton>
       </Layout>
     )
   } else {

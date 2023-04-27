@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 const logout = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    console.log('logout')
     await axios.post(
       `${process.env.SERVICE_DOMAIN}/auth/logout`,
       {},
