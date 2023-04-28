@@ -6,11 +6,12 @@ dist/
 /.pnp
 .pnp.js
 
+
 # testing
 coverage/
 
 # next.js
-frontend/.next/
+.next/
 out/
 
 # production
