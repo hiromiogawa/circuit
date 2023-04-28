@@ -8,9 +8,17 @@ const FileStoreSession = FileStore(session)
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
+  // CORS を有効にし、Next.js アプリケーションのオリジンを許可する
+  app.enableCors({
+    origin: process.env.FRONT_DOMAIN, // Next.js アプリケーションのオリジン
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true
+  })
+
   app.use(
     session({
-      secret: 'my-secret',
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       store: new FileStoreSession({})

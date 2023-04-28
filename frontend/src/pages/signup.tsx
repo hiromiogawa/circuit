@@ -2,10 +2,14 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
+// components
+import FileUpload from '@/components/common/FileUpLoad'
+
 const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
+  const [imgPath, setImgPath] = useState('')
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
@@ -17,7 +21,8 @@ const SignUp = () => {
       await axios.post('/api/users/signup', {
         username,
         email,
-        password
+        password,
+        imgPath
       })
       router.push('/login')
     } catch (error: any) {
@@ -33,10 +38,13 @@ const SignUp = () => {
     }
   }
 
+  console.log(imgPath)
+
   return (
     <div className="container mx-auto">
       <h1 className="text-2xl">新規登録</h1>
       <form onSubmit={handleSubmit}>
+        <FileUpload setState={setImgPath} />
         <input
           type="text"
           name="username"

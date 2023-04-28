@@ -16,9 +16,12 @@ import { UploadModule } from './upload/upload.module'
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      ignoreEnvFile: false,
+      envFilePath: '.env.local'
+    }),
     UsersModule,
-    // データベースのパス
-    MongooseModule.forRoot('mongodb://localhost/nest-lesson'),
+    MongooseModule.forRoot(process.env.DATABASE_URL),
     AuthModule,
     CarsModule,
     TiresModule,
@@ -26,7 +29,6 @@ import { UploadModule } from './upload/upload.module'
     CircuitsModule,
     TuningModule,
     SettingsModule,
-    ConfigModule.forRoot(),
     UploadModule
   ],
   controllers: [AppController],
@@ -37,11 +39,12 @@ export class AppModule implements NestModule {
     consumer
       .apply(
         session({
-          secret: process.env.SESSION_SECRET || 'your_secret_here',
+          secret: process.env.SESSION_SECRET,
           resave: false,
           saveUninitialized: false,
+          rolling: true,
           cookie: {
-            maxAge: 60 * 60 * 1000 // ここで maxAge を設定（ミリ秒単位）1時間（60分 × 60秒 × 1000ミリ秒）
+            maxAge: 60 * 60 * 1000
           }
         })
       )

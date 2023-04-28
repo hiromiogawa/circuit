@@ -3,6 +3,9 @@ import { IsString, MinLength, MaxLength, IsEmail } from 'class-validator'
 export class CreateUserDto {
   @IsString()
   @MinLength(1)
+  readonly imagePath: string
+  @IsString()
+  @MinLength(1)
   @MaxLength(20)
   readonly username: string
   @IsString()

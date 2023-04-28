@@ -33,8 +33,6 @@ const Home = ({ isAuthenticated, user, mycar }: PropTypes) => {
           SignOut
         </CircleButton>
 
-        <FileUpload />
-
         {mycar.length > 0 ? (
           <ul>
             {mycar.map((value) => (

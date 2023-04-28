@@ -2,8 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/login": "pages/login.js",
-  "/api/auth/logout": "pages/api/auth/logout.js",
-  "/": "pages/index.js",
+  "/api/users/signup": "pages/api/users/signup.js",
   "/signup": "pages/signup.js"
 }

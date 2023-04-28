@@ -2,7 +2,11 @@
 import React, { useState } from 'react'
 import upload from '@/functions/upload'
 
-const FileUpload = () => {
+export type FileUploadType = {
+  setState: (value: string) => void
+}
+
+const FileUpload = ({ setState }: FileUploadType) => {
   const [file, setFile] = useState<File | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +16,10 @@ const FileUpload = () => {
   }
 
   const handleUpload = async () => {
-    if (file) upload(file)
+    if (file) {
+      const _filePath = await upload(file)
+      setState(_filePath)
+    }
   }
 
   return (

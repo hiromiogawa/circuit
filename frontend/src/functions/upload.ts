@@ -1,11 +1,7 @@
 import axios from 'axios'
 import FormData from 'form-data'
 
-const upload = async (file: File) => {
-  if (!file) {
-    return
-  }
-
+const upload = async (file: File): Promise<string> => {
   const formData = new FormData()
   formData.append('file', file)
 
@@ -20,10 +16,11 @@ const upload = async (file: File) => {
       }
     )
 
-    console.log(response.data)
     console.log('File uploaded successfully')
+    return response.data.fileName
   } catch (error) {
     console.error('Error uploading file:', error)
+    return ''
   }
 
   // try {
