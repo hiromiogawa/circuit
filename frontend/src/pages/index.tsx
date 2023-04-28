@@ -17,8 +17,6 @@ type PropTypes = CheckAuthType & { mycar: GetMyCarType[] }
 const Home = ({ isAuthenticated, user, mycar }: PropTypes) => {
   const router = useRouter()
 
-  console.log(mycar)
-
   const handleLogout = async () => {
     const isLogout = await logout()
     if (isLogout) router.push('/login')

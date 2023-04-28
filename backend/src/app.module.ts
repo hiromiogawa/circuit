@@ -12,6 +12,7 @@ import { TireManufacturersModule } from './tire_manufacturers/tire_manufacturers
 import { CircuitsModule } from './circuit/circuits.module'
 import { TuningModule } from './tuning/tuning.module'
 import { SettingsModule } from './settings/settings.module'
+import { UploadModule } from './upload/upload.module'
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { SettingsModule } from './settings/settings.module'
     CircuitsModule,
     TuningModule,
     SettingsModule,
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(),
+    UploadModule
   ],
   controllers: [AppController],
   providers: [AppService]
