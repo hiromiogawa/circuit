@@ -1,7 +1,9 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import checkAuth, { CheckAuthType } from '@/functions/checkAuth'
+import getMyCar, { GetMyCarType } from '@/functions/getMycar'
 
 import logout from '@/functions/logout'
+import Link from 'next/link'
 
 import { useRouter } from 'next/router'
 
@@ -10,10 +12,12 @@ import Layout from '@/components/common/Layout'
 
 import CircleButton from '@/components/atoms/button/CircleButton'
 
-type PropTypes = CheckAuthType
+type PropTypes = CheckAuthType & { mycar: GetMyCarType[] }
 
-const Home = ({ isAuthenticated, user }: PropTypes) => {
+const Home = ({ isAuthenticated, user, mycar }: PropTypes) => {
   const router = useRouter()
+
+  console.log(mycar)
 
   const handleLogout = async () => {
     const isLogout = await logout()
@@ -28,6 +32,18 @@ const Home = ({ isAuthenticated, user }: PropTypes) => {
         <CircleButton handleClcik={handleLogout} type="red">
           SignOut
         </CircleButton>
+
+        {mycar.length > 0 ? (
+          <ul>
+            {mycar.map((value) => (
+              <li key={value._id}>
+                <Link href={`/mycar/${value.car._id}`}>{value.car.name}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <Link href="/mycar/select">マイカーを登録する</Link>
+        )}
       </Layout>
     )
   } else {
@@ -41,7 +57,15 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const authResult = await checkAuth(context)
+
+  let mycarData
+  if (authResult.isAuthenticated) {
+    mycarData = await getMyCar(context)
+  }
   return {
-    props: authResult
+    props: {
+      mycar: authResult.isAuthenticated ? mycarData : [],
+      ...authResult
+    }
   }
 }

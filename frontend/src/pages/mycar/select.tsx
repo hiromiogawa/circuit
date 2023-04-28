@@ -48,6 +48,16 @@ const SelectCar = ({
     }
   }
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login')
+    }
+  }, [isAuthenticated])
+
+  if (!isAuthenticated) {
+    return null
+  }
+
   if (isAuthenticated && user) {
     return (
       <Layout>
@@ -79,11 +89,6 @@ const SelectCar = ({
         </button>
       </Layout>
     )
-  }
-
-  if (!isAuthenticated) {
-    router.push('/login')
-    return null
   }
 }
 
