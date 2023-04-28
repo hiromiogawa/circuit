@@ -5,7 +5,7 @@ const logout = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     console.log('logout')
     await axios.post(
-      `${process.env.SERVICE_DOMAIN}/auth/logout`,
+      `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/auth/logout`,
       {},
       {
         headers: {

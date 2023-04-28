@@ -5,7 +5,7 @@ const signup = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       const { email, password, username } = req.body
-      await axios.post(`${process.env.SERVICE_DOMAIN}/users/`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/users/`, {
         email,
         password,
         username

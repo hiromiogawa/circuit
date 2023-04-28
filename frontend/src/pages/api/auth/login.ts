@@ -1,4 +1,3 @@
-// /pages/api/auth/login.ts
 import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
 
@@ -6,7 +5,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // Forward the request to the backend
     const backendRes = await axios.post(
-      `${process.env.SERVICE_DOMAIN}/auth/login`,
+      `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/auth/login`,
       req.body,
       {
         headers: {

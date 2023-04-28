@@ -15,7 +15,7 @@ const checkAuth = async (
 ): Promise<CheckAuthType> => {
   try {
     const res = await axios.get(
-      `${process.env.SERVICE_DOMAIN}/auth/check-auth`,
+      `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/auth/check-auth`,
       {
         headers: {
           cookie: context.req.headers.cookie || ''

@@ -7,7 +7,7 @@ const createMyCar = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
       const backendRes = await axios.post(
-        `${process.env.SERVICE_DOMAIN}/mycar`,
+        `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/mycar`,
         { carId },
         {
           withCredentials: true, // クッキーを転送するために追加

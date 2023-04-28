@@ -12,6 +12,8 @@ import Layout from '@/components/common/Layout'
 
 import CircleButton from '@/components/atoms/button/CircleButton'
 
+import FileUpload from '@/components/common/FileUpLoad'
+
 type PropTypes = CheckAuthType & { mycar: GetMyCarType[] }
 
 const Home = ({ isAuthenticated, user, mycar }: PropTypes) => {
@@ -30,6 +32,8 @@ const Home = ({ isAuthenticated, user, mycar }: PropTypes) => {
         <CircleButton handleClcik={handleLogout} type="red">
           SignOut
         </CircleButton>
+
+        <FileUpload />
 
         {mycar.length > 0 ? (
           <ul>
