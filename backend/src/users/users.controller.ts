@@ -44,6 +44,14 @@ export class UsersController {
     return await this.usersService.findOne(_id)
   }
 
+  @Put('imagePath')
+  @UseGuards(SessionGuard)
+  @HttpCode(204)
+  async updateImagePath(@Req() req, @Body('imagePath') imagePath: string) {
+    const id = req.session.user._id
+    await this.usersService.updateImagePath(id, imagePath)
+  }
+
   // Update username
   @Put('update-name')
   @UseGuards(SessionGuard)

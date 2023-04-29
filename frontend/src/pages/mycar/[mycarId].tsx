@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import getMyCar, { GetMyCarType } from '@/functions/getMycar'
-import checkAuth from '@/functions/checkAuth'
-import deleteMyCar from '@/functions/deleteMycar'
-import upload from '@/functions/upload'
+import getUser from '@/functions/fetch/getUser'
+import getMyCar, { GetMyCarType } from '@/functions/fetch/getMycar'
+import checkAuth from '@/functions/fetch/checkAuth'
+import deleteMyCar from '@/functions/fetch/deleteMycar'
+import upload from '@/functions/fetch/upload'
 import axios from 'axios'
 
 import Image from 'next/image'
@@ -136,17 +137,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const authResult = await checkAuth(context)
 
     // ログインしている場合、そのユーザーの車かどうか判別
-    if (
-      authResult.isAuthenticated &&
-      authResult.user!._id === myCarData.user._id
-    )
+    if (authResult.isAuthenticated && myCarData.user._id === authResult.userId)
       isMycar = true
   }
 
   // データを props として渡す
   return {
     props: {
-      mycar: myCarData,
+      isAuthenticated: myCarData,
       isMycar: isMycar
     }
   }

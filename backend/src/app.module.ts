@@ -1,10 +1,9 @@
-import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UsersModule } from './users/users.module'
 import { MongooseModule } from '@nestjs/mongoose'
 import { AuthModule } from './auth/auth.module'
-import * as session from 'express-session'
 import { ConfigModule } from '@nestjs/config'
 import { CarsModule } from './cars/cars.module'
 import { TiresModule } from './tires/tires.module'
@@ -34,20 +33,4 @@ import { UploadModule } from './upload/upload.module'
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(
-        session({
-          secret: process.env.SESSION_SECRET,
-          resave: false,
-          saveUninitialized: false,
-          rolling: true,
-          cookie: {
-            maxAge: 60 * 60 * 1000
-          }
-        })
-      )
-      .forRoutes('*')
-  }
-}
+export class AppModule {}

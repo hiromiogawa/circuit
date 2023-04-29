@@ -7,7 +7,7 @@ import type { UserType } from '@/types/users'
 // getStaticProps内のみで使用可能
 export type CheckAuthType = {
   isAuthenticated: boolean
-  user?: Pick<UserType, '_id' | 'username' | 'imagePath'>
+  userId?: string
 }
 
 const checkAuth = async (
@@ -27,7 +27,7 @@ const checkAuth = async (
     if (res.data.isAuthenticated) {
       return {
         isAuthenticated: true,
-        user: res.data.user
+        userId: res.data.user._id
       }
     } else {
       return {

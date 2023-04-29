@@ -20,7 +20,6 @@ export class UsersService {
     const hashedPassword = await hash(user.password, 10)
 
     const createdUser = new this.userModel({
-      imagePath: user.imagePath,
       username: user.username,
       password: hashedPassword,
       email: user.email
@@ -55,6 +54,12 @@ export class UsersService {
 
   async getMyCarsByUserId(userId: string) {
     return this.myCarService.findByUserId(userId)
+  }
+
+  async updateImagePath(id: string, imagePath: string): Promise<void> {
+    await this.userModel
+      .updateOne({ _id: id }, { $set: { imagePath: imagePath } })
+      .exec()
   }
 
   // Update username

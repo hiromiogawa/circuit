@@ -1,9 +1,9 @@
 import { useState, ChangeEvent, useEffect } from 'react'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import checkAuth, { CheckAuthType } from '@/functions/checkAuth'
-import getCars from '@/functions/getCars'
-import getManufacturers from '@/functions/getManufacturers'
-import createMyCar from '@/functions/createMyCar'
+import checkAuth, { CheckAuthType } from '@/functions/fetch/checkAuth'
+import getCars from '@/functions/fetch/getCars'
+import getManufacturers from '@/functions/fetch/getManufacturers'
+import createMyCar from '@/functions/fetch/createMyCar'
 
 import type { CarType, ManufacturerType } from '@/types/cars'
 
@@ -17,12 +17,7 @@ type PropTypes = CheckAuthType & {
   manufacturers: ManufacturerType[]
 }
 
-const SelectCar = ({
-  isAuthenticated,
-  user,
-  cars,
-  manufacturers
-}: PropTypes) => {
+const SelectCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
   const [selectValue, setSelectValue] = useState<CarType[] | []>([])
   const [selectedCar, setSelectedCar] = useState<string>('')
 
@@ -60,11 +55,9 @@ const SelectCar = ({
     return null
   }
 
-  if (isAuthenticated && user) {
+  if (isAuthenticated) {
     return (
       <Layout>
-        {user.username}
-
         {manufacturers && (
           <select onChange={handleChange}>
             <option value="">選択してください</option>
