@@ -27,7 +27,8 @@ export class AuthService {
       return {
         user: {
           _id: foundUser._id,
-          username: foundUser.username
+          username: foundUser.username,
+          imagePath: foundUser.imagePath
         }
       }
     } else {

@@ -20,6 +20,7 @@ export class UsersService {
     const hashedPassword = await hash(user.password, 10)
 
     const createdUser = new this.userModel({
+      imagePath: user.imagePath,
       username: user.username,
       password: hashedPassword,
       email: user.email

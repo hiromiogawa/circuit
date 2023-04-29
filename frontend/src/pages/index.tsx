@@ -1,6 +1,7 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import checkAuth, { CheckAuthType } from '@/functions/checkAuth'
 import getMyCar, { GetMyCarType } from '@/functions/getMycar'
+import getUpload from '@/functions/getUpload'
 
 import logout from '@/functions/logout'
 import Link from 'next/link'
@@ -10,13 +11,19 @@ import { useRouter } from 'next/router'
 // components
 import Layout from '@/components/common/Layout'
 
+import Image from 'next/image'
+
 import CircleButton from '@/components/atoms/button/CircleButton'
 
-import FileUpload from '@/components/common/FileUpLoad'
+type PropTypes = {
+  mycar: GetMyCarType[]
+  user: {
+    username: string
+    imagePath: string
+  }
+} & Pick<CheckAuthType, 'isAuthenticated'>
 
-type PropTypes = CheckAuthType & { mycar: GetMyCarType[] }
-
-const Home = ({ isAuthenticated, user, mycar }: PropTypes) => {
+const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
   const router = useRouter()
 
   const handleLogout = async () => {
@@ -27,6 +34,12 @@ const Home = ({ isAuthenticated, user, mycar }: PropTypes) => {
   if (isAuthenticated && user) {
     return (
       <Layout>
+        <Image
+          src={user.imagePath}
+          alt={user.username}
+          width={100}
+          height={100}
+        />
         <p>{user.username}</p>
 
         <CircleButton handleClcik={handleLogout} type="red">
@@ -59,13 +72,21 @@ export const getServerSideProps: GetServerSideProps = async (
   const authResult = await checkAuth(context)
 
   let mycarData
+  let imagePath
   if (authResult.isAuthenticated) {
     mycarData = await getMyCar(context)
+    imagePath = `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/upload/${
+      authResult.user!.imagePath
+    }`
   }
   return {
     props: {
       mycar: authResult.isAuthenticated ? mycarData : [],
-      ...authResult
+      isAuthenticated: authResult.isAuthenticated,
+      user: {
+        imagePath: imagePath,
+        username: authResult.user!.username
+      }
     }
   }
 }

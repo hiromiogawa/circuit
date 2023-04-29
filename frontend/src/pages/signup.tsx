@@ -1,28 +1,41 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-// components
-import FileUpload from '@/components/common/FileUpLoad'
+import upload from '@/functions/upload'
 
 const SignUp = () => {
+  const [file, setFile] = useState<File | null>(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
-  const [imgPath, setImgPath] = useState('')
+  const [imagePath, setImagePath] = useState('')
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0])
+    }
+  }
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
+    if (file) {
+      const _filePath = await upload(file)
+      setImagePath(_filePath)
+    } else {
+      setError('ファイルを登録してください')
+    }
+  }
 
+  const postSignIn = async () => {
     try {
       await axios.post('/api/users/signup', {
+        imagePath,
         username,
         email,
-        password,
-        imgPath
+        password
       })
       router.push('/login')
     } catch (error: any) {
@@ -38,19 +51,20 @@ const SignUp = () => {
     }
   }
 
-  console.log(imgPath)
+  useEffect(() => {
+    if (imagePath) postSignIn()
+  }, [imagePath])
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-2xl">新規登録</h1>
+    <div>
+      <h1>新規登録</h1>
       <form onSubmit={handleSubmit}>
-        <FileUpload setState={setImgPath} />
+        <input type="file" onChange={handleFileChange} />
         <input
           type="text"
           name="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 mb-4 text-black border border-gray-300 rounded"
           placeholder="ユーザー名"
         />
         <input
@@ -58,7 +72,6 @@ const SignUp = () => {
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 mb-4 text-black border border-gray-300 rounded"
           placeholder="メールアドレス"
         />
         <input
@@ -66,16 +79,10 @@ const SignUp = () => {
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 text-black border border-gray-300 rounded"
           placeholder="パスワード"
         />
-        {error && <p className="text-red-500">{error}</p>}
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded"
-        >
-          登録
-        </button>
+        {error && <p>{error}</p>}
+        <button type="submit">登録</button>
       </form>
     </div>
   )

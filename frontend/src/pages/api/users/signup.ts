@@ -4,8 +4,9 @@ import axios from 'axios'
 const signup = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
-      const { email, password, username } = req.body
+      const { imagePath, email, password, username } = req.body
       await axios.post(`${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/users/`, {
+        imagePath,
         email,
         password,
         username
