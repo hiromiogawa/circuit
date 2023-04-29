@@ -20,7 +20,7 @@ const getMyCar = async (
         userId: GetMyCarType['user']
         carId: GetMyCarType['car']
       }[]
-    } = await axios.get(`${process.env.SERVICE_DOMAIN}/mycar`, {
+    } = await axios.get(`${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/mycar`, {
       headers: {
         cookie: context.req.headers.cookie || ''
       },

@@ -6,7 +6,7 @@ import type { ManufacturerType } from '@/types/cars'
 const getManufacturers = async () => {
   try {
     const backendRes = await axios.get<ManufacturerType[]>(
-      `${process.env.SERVICE_DOMAIN}/manufacturers`
+      `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/manufacturers`
     )
     const manufacturers = backendRes.data
     return manufacturers

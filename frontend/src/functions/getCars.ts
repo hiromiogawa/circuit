@@ -6,7 +6,7 @@ import type { CarType } from '@/types/cars'
 const getCars = async () => {
   try {
     const backendRes = await axios.get<CarType[]>(
-      `${process.env.SERVICE_DOMAIN}/cars`
+      `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/cars`
     )
     const cars = backendRes.data
     return cars

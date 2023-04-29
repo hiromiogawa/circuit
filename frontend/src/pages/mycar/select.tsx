@@ -14,14 +14,14 @@ import Layout from '@/components/common/Layout'
 
 type PropTypes = CheckAuthType & {
   cars: CarType[] | false
-  manufacuturers: ManufacturerType[]
+  manufacturers: ManufacturerType[]
 }
 
 const SelectCar = ({
   isAuthenticated,
   user,
   cars,
-  manufacuturers
+  manufacturers
 }: PropTypes) => {
   const [selectValue, setSelectValue] = useState<CarType[] | []>([])
   const [selectedCar, setSelectedCar] = useState<string>('')
@@ -41,10 +41,12 @@ const SelectCar = ({
 
   const handleClick = async () => {
     const result = await createMyCar(selectedCar)
+    console.log(result)
     if (!result) {
       console.error('Failed to create my car')
     } else {
       console.log('My car created successfully')
+      router.push('/')
     }
   }
 
@@ -63,10 +65,10 @@ const SelectCar = ({
       <Layout>
         {user.username}
 
-        {manufacuturers && (
+        {manufacturers && (
           <select onChange={handleChange}>
             <option value="">選択してください</option>
-            {manufacuturers.map((manufacuturer) => (
+            {manufacturers.map((manufacuturer) => (
               <option key={`${manufacuturer.name}`}>
                 {manufacuturer.name}
               </option>
@@ -103,7 +105,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
   return {
     props: {
-      manufacuturers: manufacturersData,
+      manufacturers: manufacturersData,
       cars: carsData,
       ...authResult
     }

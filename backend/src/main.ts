@@ -21,7 +21,9 @@ async function bootstrap() {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      store: new FileStoreSession({})
+      store: new FileStoreSession({
+        mkdir: true
+      })
     })
   )
 

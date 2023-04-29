@@ -79,6 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (
       authResult.user!.imagePath
     }`
   }
+
   return {
     props: {
       mycar: authResult.isAuthenticated ? mycarData : [],
