@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import axios from 'axios'
 
 // types
-import type { UserType } from '@/types/users'
+import type { UserType } from '@/types/data'
 
 // getStaticProps内のみで使用可能
 export type CheckAuthType = {

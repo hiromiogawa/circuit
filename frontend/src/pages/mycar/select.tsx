@@ -5,7 +5,7 @@ import getCars from '@/functions/fetch/getCars'
 import getManufacturers from '@/functions/fetch/getManufacturers'
 import createMyCar from '@/functions/fetch/createMyCar'
 
-import type { CarType, ManufacturerType } from '@/types/cars'
+import type { CarType, ManufacturerType } from '@/types/data'
 
 import { useRouter } from 'next/router'
 
@@ -36,12 +36,11 @@ const SelectCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
 
   const handleClick = async () => {
     const result = await createMyCar(selectedCar)
-    console.log(result)
     if (!result) {
       console.error('Failed to create my car')
     } else {
       console.log('My car created successfully')
-      router.push('/')
+      router.push(`/mycar/${result.data._id}`)
     }
   }
 

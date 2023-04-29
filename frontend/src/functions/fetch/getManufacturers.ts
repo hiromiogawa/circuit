@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import type { ManufacturerType } from '@/types/cars'
+import type { ManufacturerType } from '@/types/data'
 
 // getStaticProps内のみで使用可能
 const getManufacturers = async () => {

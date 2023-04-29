@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next'
 import axios from 'axios'
 
-import type { UserType } from '@/types/users'
+import type { UserType } from '@/types/data'
 
 export type GetUserType = {
   _id: UserType['_id']

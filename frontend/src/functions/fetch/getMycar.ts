@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-import type { CarType } from '@/types/cars'
-import type { UserType } from '@/types/users'
+import type { UserType, CarType } from '@/types/data'
 
 export type GetMyCarType = {
   _id: string

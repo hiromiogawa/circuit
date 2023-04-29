@@ -1,3 +1,13 @@
+import MyCar from '@/pages/mycar/[mycarId]'
+
+export type UserType = {
+  _id: string
+  username: string
+  email?: string
+  password?: string
+  imagePath: string
+}
+
 export type ManufacturerType = {
   _id: string
   name: string
@@ -15,4 +25,10 @@ export type CarType = {
   manufacturer: ManufacturerType
   drivetrains: DrivetrainType
   displacement: number
+}
+
+export type MyCarType = {
+  carId: CarType['_id']
+  userId: UserType['_id']
+  _id: string
 }
