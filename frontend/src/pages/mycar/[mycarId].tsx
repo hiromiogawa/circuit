@@ -15,7 +15,6 @@ import noImage from '@/images/mycar.png'
 type PropTypes = {
   mycar: GetMyCarType
   isMycar: boolean
-  accessToken: string
 }
 
 const MyCar = ({ mycar, isMycar }: PropTypes) => {
@@ -141,10 +140,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       isMycar = true
   }
 
+  console.log(myCarData)
   // データを props として渡す
   return {
     props: {
-      isAuthenticated: myCarData,
+      mycar: myCarData,
       isMycar: isMycar
     }
   }
