@@ -5,6 +5,9 @@ import { Car } from '../../cars/schemas/car.schema'
 
 @Schema()
 export class MyCar extends Document {
+  @Prop()
+  imagePath: string
+
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   userId: Types.ObjectId
 

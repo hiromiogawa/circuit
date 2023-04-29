@@ -8,7 +8,9 @@ import {
   Req,
   Put,
   Delete,
-  HttpCode
+  HttpCode,
+  HttpException,
+  HttpStatus
 } from '@nestjs/common'
 import { MyCarService } from './mycar.service'
 import { CreateMyCarDto } from './dto/create-mycar.dto'
@@ -36,6 +38,24 @@ export class MyCarController {
   async findMyCars(@Req() req): Promise<MyCar[]> {
     const userId = req.session.user._id
     return this.myCarService.findByUserId(userId)
+  }
+
+  @Put(':id/imagePath')
+  @UseGuards(SessionGuard)
+  @HttpCode(204)
+  async updateImagePath(
+    @Req() req,
+    @Param('id') id: string,
+    @Body('imagePath') imagePath: string
+  ) {
+    const userId = req.session.user._id
+    const isRelated = await this.myCarService.isUserRelatedToMyCar(userId, id)
+
+    if (isRelated) {
+      await this.myCarService.updateImagePath(id, userId, imagePath)
+    } else {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
+    }
   }
 
   @Get('user/:id')

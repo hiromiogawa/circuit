@@ -13,6 +13,6 @@ export type CarType = {
   name: string
   modelName: string
   manufacturer: ManufacturerType
-  drivetrain: DrivetrainType
+  drivetrains: DrivetrainType
   displacement: number
 }

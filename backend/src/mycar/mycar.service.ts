@@ -24,7 +24,14 @@ export class MyCarService {
   }
 
   async findOne(id: string): Promise<MyCar> {
-    return this.myCarModel.findById(id).exec()
+    return this.myCarModel
+      .findById(id)
+      .populate({
+        path: 'carId',
+        populate: [{ path: 'manufacturer' }, { path: 'drivetrains' }]
+      })
+      .populate({ path: 'userId' })
+      .exec()
   }
 
   async update(
@@ -40,6 +47,19 @@ export class MyCarService {
     }
   }
 
+  async updateImagePath(
+    id: string,
+    userId: string,
+    imagePath: string
+  ): Promise<void> {
+    await this.myCarModel
+      .updateOne(
+        { _id: id, userId: userId },
+        { $set: { imagePath: imagePath } }
+      )
+      .exec()
+  }
+
   async delete(id: string, userId: string): Promise<void> {
     const deletedMyCar = await this.myCarModel
       .findOneAndDelete({ _id: id, userId })
@@ -49,7 +69,7 @@ export class MyCarService {
     }
   }
 
-  // myCarIDに対しjwtから取得したuserIdに対しリレーションされているデータかどうか判別
+  // myCarIDに対しセッションから取得したuserIdに対しリレーションされているデータかどうか判別
   async isUserRelatedToMyCar(
     userId: string,
     mycarId: string

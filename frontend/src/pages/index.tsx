@@ -1,7 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import checkAuth, { CheckAuthType } from '@/functions/checkAuth'
-import getMyCar, { GetMyCarType } from '@/functions/getMycar'
-import getUpload from '@/functions/getUpload'
+import getMyCars, { GetMyCarType } from '@/functions/getMycars'
 
 import logout from '@/functions/logout'
 import Link from 'next/link'
@@ -50,7 +49,7 @@ const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
           <ul>
             {mycar.map((value) => (
               <li key={value._id}>
-                <Link href={`/mycar/${value.car._id}`}>{value.car.name}</Link>
+                <Link href={`/mycar/${value._id}`}>{value.car.name}</Link>
               </li>
             ))}
           </ul>
@@ -73,21 +72,24 @@ export const getServerSideProps: GetServerSideProps = async (
 
   let mycarData
   let imagePath
+  let user = null
   if (authResult.isAuthenticated) {
-    mycarData = await getMyCar(context)
+    mycarData = await getMyCars(context)
     imagePath = `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/upload/${
       authResult.user!.imagePath
     }`
+
+    user = {
+      imagePath: imagePath,
+      username: authResult.user!.username
+    }
   }
 
   return {
     props: {
       mycar: authResult.isAuthenticated ? mycarData : [],
       isAuthenticated: authResult.isAuthenticated,
-      user: {
-        imagePath: imagePath,
-        username: authResult.user!.username
-      }
+      user: user
     }
   }
 }
