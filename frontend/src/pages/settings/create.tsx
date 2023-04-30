@@ -58,7 +58,6 @@ const CreateSetting = ({
   }
 
   const handleClick = async () => {
-    console.log(selectedMycar)
     const result = await createSetting(selectedMycar, selectedTire, freeText)
     if (!result) {
       console.error('Failed to create setting')

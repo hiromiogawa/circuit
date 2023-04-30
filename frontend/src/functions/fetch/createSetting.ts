@@ -6,7 +6,7 @@ const createSetting = async (
   freeText: string
 ) => {
   try {
-    const res = await axios.post('/api/settings/create', {
+    const res = await axios.post('/api/settings', {
       mycarId,
       tireId,
       freeText
