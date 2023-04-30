@@ -42,7 +42,7 @@ export type TireManufacturerType = {
 export type TireType = {
   _id: string
   name: string
-  manufacturer: string
+  manufacturer: TireManufacturerType
 }
 
 export type SettingType = {

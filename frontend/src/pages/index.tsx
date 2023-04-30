@@ -37,6 +37,7 @@ const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
               : ''
           }
           endPoint={`${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/users/imagePath`}
+          isMyData={isAuthenticated}
         />
 
         <p>{user.name}</p>
@@ -62,7 +63,7 @@ const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
             ))}
           </ul>
         ) : (
-          <Link href="/mycar/select">マイカーを登録する</Link>
+          <Link href="/mycar/create">マイカーを登録する</Link>
         )}
       </Layout>
     )

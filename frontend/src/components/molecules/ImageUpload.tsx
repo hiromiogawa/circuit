@@ -9,13 +9,15 @@ type ImageUploadProps = {
   endPoint: string
   width?: number
   height?: number
+  isMyData: boolean
 }
 
 const ImageUpload = ({
   initialImage,
   endPoint,
   width = 700,
-  height = 300
+  height = 300,
+  isMyData = false
 }: ImageUploadProps) => {
   const [imagePreview, setImagePreview] = useState<string>('')
   const [imagePath, setImagePath] = useState('')
@@ -85,12 +87,14 @@ const ImageUpload = ({
         height={height}
       />
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleFileChange} ref={inputFileRef} />
-        <button disabled={!image} type="submit">
-          {initialImage ? '決定' : '登録'}
-        </button>
-      </form>
+      {isMyData && (
+        <form onSubmit={handleSubmit}>
+          <input type="file" onChange={handleFileChange} ref={inputFileRef} />
+          <button disabled={!image} type="submit">
+            {initialImage ? '決定' : '登録'}
+          </button>
+        </form>
+      )}
     </>
   )
 }

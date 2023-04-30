@@ -48,7 +48,8 @@ let SettingsService = class SettingsService {
             path: 'mycarId'
         })
             .populate({
-            path: 'tireId'
+            path: 'tireId',
+            populate: [{ path: 'manufacturer' }]
         })
             .exec();
     }

@@ -5,7 +5,7 @@ const createMycar = async (carId: string) => {
   try {
     const newMyCar: Promise<{
       data: MyCarType
-    }> = axios.post('/api/mycar/create', { carId: carId })
+    }> = axios.post('/api/mycar', { carId: carId })
     return newMyCar
   } catch (error) {
     console.error('Failed to create my car:', error)

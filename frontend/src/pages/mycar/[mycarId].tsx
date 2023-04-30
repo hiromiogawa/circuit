@@ -42,6 +42,7 @@ const MyCar = ({ mycar, isMycar, setting }: PropTypes) => {
             : ''
         }
         endPoint={`${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/mycar/${mycar._id}/imagePath`}
+        isMyData={isMycar}
       />
 
       <p>{mycar.car.name}</p>
@@ -57,12 +58,18 @@ const MyCar = ({ mycar, isMycar, setting }: PropTypes) => {
             <p>{value.freeText}</p>
             <p>{value.tire.manufacturer.name}</p>
             <p>{value.tire.name}</p>
-            <Link href={`/settings/${value._id}`}>セッティングを変更する</Link>
+            {isMycar && (
+              <Link href={`/settings/${value._id}`}>
+                セッティングを修正する
+              </Link>
+            )}
           </div>
         ))}
-      <Link href={`/settings/create?mycar=${mycar._id}`}>
-        新しいセッティングを登録する
-      </Link>
+      {isMycar && (
+        <Link href={`/settings/create?mycar=${mycar._id}`}>
+          セッティングを登録する
+        </Link>
+      )}
     </>
   )
 }
@@ -93,7 +100,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ) {
       isMycar = true
       settingData = await getActiveSettingsByMyCarId(myCarData._id)
-      console.log(settingData)
     }
   }
 

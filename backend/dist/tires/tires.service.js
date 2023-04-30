@@ -26,10 +26,13 @@ let TiresService = class TiresService {
         return createdTire.save();
     }
     async findAll() {
-        return this.tireModel.find().exec();
+        return this.tireModel.find().populate({ path: 'manufacturer' }).exec();
     }
     async findOne(id) {
-        const tire = await this.tireModel.findById(id).exec();
+        const tire = await this.tireModel
+            .findById(id)
+            .populate({ path: 'manufacturer' })
+            .exec();
         if (!tire) {
             throw new common_1.NotFoundException('Tire not found');
         }

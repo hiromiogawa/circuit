@@ -16,11 +16,14 @@ export class TiresService {
   }
 
   async findAll(): Promise<Tire[]> {
-    return this.tireModel.find().exec()
+    return this.tireModel.find().populate({ path: 'manufacturer' }).exec()
   }
 
   async findOne(id: string): Promise<Tire> {
-    const tire = await this.tireModel.findById(id).exec()
+    const tire = await this.tireModel
+      .findById(id)
+      .populate({ path: 'manufacturer' })
+      .exec()
     if (!tire) {
       throw new NotFoundException('Tire not found')
     }

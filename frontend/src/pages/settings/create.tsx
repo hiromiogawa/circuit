@@ -40,7 +40,7 @@ const CreateSetting = ({
     event: ChangeEvent<HTMLSelectElement>
   ) => {
     const sortCars = tires
-      ? tires.filter((tire) => tire.manufacturer === event.target.value)
+      ? tires.filter((tire) => tire.manufacturer._id === event.target.value)
       : []
     setSelectManufacturer(sortCars)
   }

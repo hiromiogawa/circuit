@@ -10,8 +10,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         freeText: req.body.freeText
       }
 
-      console.log(mycarId)
-
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/settings/mycar/${mycarId}`,
         createSettingDto,
