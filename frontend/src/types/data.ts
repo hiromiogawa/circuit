@@ -31,4 +31,5 @@ export type MyCarType = {
   carId: CarType['_id']
   userId: UserType['_id']
   _id: string
+  imagePath: string
 }

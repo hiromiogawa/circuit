@@ -4,8 +4,6 @@ import axios from 'axios'
 
 import upload from '@/functions/fetch/upload'
 
-import noImage from '@/images/mycar.png'
-
 type ImageUploadProps = {
   initialImage: string
   endPoint: string
@@ -81,9 +79,7 @@ const ImageUpload = ({
   return (
     <>
       <Image
-        src={
-          imagePreview ? imagePreview : initialImage ? initialImage : noImage
-        }
+        src={imagePreview ? imagePreview : initialImage}
         alt={initialImage ? '' : 'No Image'}
         width={width}
         height={height}

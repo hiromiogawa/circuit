@@ -12,6 +12,7 @@ import Link from 'next/link'
 import Layout from '@/components/common/Layout'
 import ImageUpload from '@/components/molecules/ImageUpload'
 import CircleButton from '@/components/atoms/button/CircleButton'
+import Image from 'next/image'
 
 type PropTypes = {
   mycar: GetMyCarType[]
@@ -48,7 +49,15 @@ const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
           <ul>
             {mycar.map((value) => (
               <li key={value._id}>
-                <Link href={`/mycar/${value._id}`}>{value.car.name}</Link>
+                <Link href={`/mycar/${value._id}`}>
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/upload/${value.img}`}
+                    alt={value.car.name}
+                    width={700}
+                    height={350}
+                  />
+                  {value.car.name}
+                </Link>
               </li>
             ))}
           </ul>

@@ -5,7 +5,7 @@ import { Car } from '../../cars/schemas/car.schema'
 
 @Schema()
 export class MyCar extends Document {
-  @Prop()
+  @Prop({ default: 'noimage.png' })
   imagePath: string
 
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })

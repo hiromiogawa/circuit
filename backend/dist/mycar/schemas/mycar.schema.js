@@ -17,7 +17,7 @@ const car_schema_1 = require("../../cars/schemas/car.schema");
 let MyCar = class MyCar extends mongoose_2.Document {
 };
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ default: 'noimage.png' }),
     __metadata("design:type", String)
 ], MyCar.prototype, "imagePath", void 0);
 __decorate([

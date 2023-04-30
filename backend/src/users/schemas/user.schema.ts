@@ -3,7 +3,7 @@ import { Document } from 'mongoose'
 
 @Schema()
 export class User extends Document {
-  @Prop()
+  @Prop({ default: 'noimage.png' })
   imagePath: string
 
   @Prop({ required: true })
