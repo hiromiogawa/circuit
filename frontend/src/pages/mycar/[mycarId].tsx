@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 // myFunctions
-import getMyCar, { GetMyCarType } from '@/functions/fetch/getMycar'
+import getMycar, { GetMycarType } from '@/functions/fetch/getMycar'
 import checkAuth from '@/functions/fetch/checkAuth'
 import deleteMyCar from '@/functions/fetch/deleteMycar'
 import getActiveSettingsByMyCarId, {
@@ -10,10 +10,11 @@ import getActiveSettingsByMyCarId, {
 } from '@/functions/fetch/getActiveSettingsByMyCarIdType'
 
 // components
+import Link from 'next/link'
 import ImageUpload from '@/components/molecules/ImageUpload'
 
 type PropTypes = {
-  mycar: GetMyCarType
+  mycar: GetMycarType
   isMycar: boolean
   setting: GetActiveSettingsByMyCarIdType
 }
@@ -50,15 +51,18 @@ const MyCar = ({ mycar, isMycar, setting }: PropTypes) => {
       <p>{mycar.car.manufacturer.name}</p>
       {isMycar && <button onClick={handleDelete}>マイカーから削除する</button>}
 
-      {setting &&
-        setting.length > 0 &&
+      {setting.length > 0 &&
         setting.map((value) => (
-          <>
+          <div key={value._id}>
             <p>{value.freeText}</p>
             <p>{value.tire.manufacturer.name}</p>
             <p>{value.tire.name}</p>
-          </>
+            <Link href={`/settings/${value._id}`}>セッティングを変更する</Link>
+          </div>
         ))}
+      <Link href={`/settings/create?mycar=${mycar._id}`}>
+        新しいセッティングを登録する
+      </Link>
     </>
   )
 }
@@ -69,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // URL パスから mycarId を取得
   const mycarId = context.params!.mycarId as string
 
-  const myCarData = await getMyCar(mycarId)
+  const myCarData = await getMycar(mycarId)
 
   // ユーザーの車かどうか判別するための変数を宣言
   let isMycar = false

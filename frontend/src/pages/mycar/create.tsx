@@ -3,7 +3,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import checkAuth, { CheckAuthType } from '@/functions/fetch/checkAuth'
 import getCars from '@/functions/fetch/getCars'
 import getManufacturers from '@/functions/fetch/getManufacturers'
-import createMyCar from '@/functions/fetch/createMyCar'
+import createMycar from '@/functions/fetch/createMycar'
 
 import type { CarType, ManufacturerType } from '@/types/data'
 
@@ -17,17 +17,19 @@ type PropTypes = CheckAuthType & {
   manufacturers: ManufacturerType[]
 }
 
-const SelectCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
-  const [selectValue, setSelectValue] = useState<CarType[] | []>([])
+const CreateMyCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
+  const [selectManufacturer, setSelectManufacturer] = useState<CarType[] | []>(
+    []
+  )
   const [selectedCar, setSelectedCar] = useState<string>('')
 
   const router = useRouter()
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleManufacturerChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const sortCars = cars
       ? cars.filter((car) => car.manufacturer.name === event.target.value)
       : []
-    setSelectValue(sortCars)
+    setSelectManufacturer(sortCars)
   }
 
   const handleCarChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -35,7 +37,7 @@ const SelectCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
   }
 
   const handleClick = async () => {
-    const result = await createMyCar(selectedCar)
+    const result = await createMycar(selectedCar)
     if (!result) {
       console.error('Failed to create my car')
     } else {
@@ -58,7 +60,7 @@ const SelectCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
     return (
       <Layout>
         {manufacturers && (
-          <select onChange={handleChange}>
+          <select onChange={handleManufacturerChange}>
             <option value="">選択してください</option>
             {manufacturers.map((manufacuturer) => (
               <option key={`${manufacuturer.name}`}>
@@ -68,10 +70,10 @@ const SelectCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
           </select>
         )}
 
-        {selectValue.length > 0 && (
+        {selectManufacturer.length > 0 && (
           <select onChange={handleCarChange}>
             <option>選択してください</option>
-            {selectValue.map((car) => (
+            {selectManufacturer.map((car) => (
               <option key={`${car.name}-${car.modelName}`} value={`${car._id}`}>
                 {car.name} {car.modelName}
               </option>
@@ -86,7 +88,7 @@ const SelectCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
   }
 }
 
-export default SelectCar
+export default CreateMyCar
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext

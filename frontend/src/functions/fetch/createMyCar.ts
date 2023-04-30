@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { MyCarType } from '@/types/data'
 
-const createMyCar = async (carId: string) => {
+const createMycar = async (carId: string) => {
   try {
     const newMyCar: Promise<{
       data: MyCarType
@@ -13,4 +13,4 @@ const createMyCar = async (carId: string) => {
   }
 }
 
-export default createMyCar
+export default createMycar

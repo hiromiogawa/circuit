@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 // myFunctions
 import checkAuth, { CheckAuthType } from '@/functions/fetch/checkAuth'
-import getMyCars, { GetMyCarType } from '@/functions/fetch/getMycars'
+import getMycars, { GetMycarType } from '@/functions/fetch/getMycars'
 import getUser, { GetUserType } from '@/functions/fetch/getUser'
 import logout from '@/functions/fetch/logout'
 
@@ -15,7 +15,7 @@ import CircleButton from '@/components/atoms/button/CircleButton'
 import Image from 'next/image'
 
 type PropTypes = {
-  mycar: GetMyCarType[]
+  mycar: GetMycarType[]
   user: GetUserType
 } & Pick<CheckAuthType, 'isAuthenticated'>
 
@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (
   let user
   if (authResult.isAuthenticated) {
     user = await getUser(context)
-    mycarData = await getMyCars(context)
+    mycarData = await getMycars(context)
   }
 
   return {

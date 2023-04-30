@@ -1,22 +1,22 @@
 import axios from 'axios'
 
-import type { UserType, CarType } from '@/types/data'
+import type { UserType, CarType, MyCarType } from '@/types/data'
 
-export type GetMyCarType = {
+export type GetMycarType = {
   _id: string
   img?: string
   user: UserType
   car: CarType
 }
 
-const getMyCar = async (id: string): Promise<GetMyCarType | false> => {
+const getMycar = async (id: string): Promise<GetMycarType | false> => {
   try {
     const res: {
       data: {
-        _id: GetMyCarType['_id']
-        imagePath?: GetMyCarType['img']
-        userId: GetMyCarType['user']
-        carId: GetMyCarType['car']
+        _id: GetMycarType['_id']
+        imagePath?: GetMycarType['img']
+        userId: GetMycarType['user']
+        carId: GetMycarType['car']
       }
     } = await axios.get(`${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/mycar/${id}`)
 
@@ -31,4 +31,4 @@ const getMyCar = async (id: string): Promise<GetMyCarType | false> => {
   }
 }
 
-export default getMyCar
+export default getMycar
