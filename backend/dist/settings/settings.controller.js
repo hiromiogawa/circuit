@@ -23,14 +23,28 @@ let SettingsController = class SettingsController {
         this.settingsService = settingsService;
         this.myCarsService = myCarsService;
     }
-    async create(req, createSettingDto) {
+    async create(req, mycarId, createSettingDto) {
         const userId = req.session.user._id;
-        const mycarId = createSettingDto.mycarId;
         if (await this.myCarsService.isUserRelatedToMyCar(userId, mycarId)) {
-            return this.settingsService.create(createSettingDto);
+            await this.settingsService.deactivatePreviousSetting(mycarId);
+            return this.settingsService.create(Object.assign(Object.assign({}, createSettingDto), { mycarId }));
         }
         else {
             throw new common_1.UnauthorizedException("You don't have access to this car.");
+        }
+    }
+    async findActive(mycarId) {
+        return this.settingsService.findActive(mycarId);
+    }
+    async activate(req, id) {
+        const userId = req.session.user._id;
+        if (await this.settingsService.isUserRelatedToSetting(userId, id)) {
+            const setting = await this.settingsService.findOne(id);
+            await this.settingsService.deactivatePreviousSetting(setting.mycarId);
+            await this.settingsService.activateSetting(id);
+        }
+        else {
+            throw new common_1.UnauthorizedException("You don't have access to this setting.");
         }
     }
     async findOne(id) {
@@ -59,15 +73,33 @@ let SettingsController = class SettingsController {
     }
 };
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('/mycar/:mycarId'),
     (0, common_1.UseGuards)(session_guard_1.SessionGuard),
     (0, common_1.HttpCode)(201),
     __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('mycarId')),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, create_setting_dto_1.CreateSettingDto]),
+    __metadata("design:paramtypes", [Object, String, create_setting_dto_1.CreateSettingDto]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)('/active/mycar/:mycarId'),
+    __param(0, (0, common_1.Param)('mycarId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], SettingsController.prototype, "findActive", null);
+__decorate([
+    (0, common_1.Put)(':id/activate'),
+    (0, common_1.UseGuards)(session_guard_1.SessionGuard),
+    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], SettingsController.prototype, "activate", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),

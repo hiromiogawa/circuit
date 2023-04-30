@@ -1,13 +1,15 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsString, MinLength, IsNotEmpty } from 'class-validator'
 
 export class CreateSettingDto {
   @IsString()
   @MinLength(1)
-  readonly mycarId: string;
+  readonly mycarId: string
   @IsString()
   @MinLength(1)
-  readonly tireId: string;
+  readonly tireId: string
   @IsString()
   @MinLength(1)
-  readonly freeText: string;
+  readonly freeText: string
+  @IsNotEmpty()
+  readonly active: boolean = true
 }

@@ -33,3 +33,21 @@ export type MyCarType = {
   _id: string
   imagePath: string
 }
+
+export type TireManufacturerType = {
+  _id: string
+  name: string
+}
+
+export type TireType = {
+  _id: string
+  name: string
+  manufacturer: TireManufacturerType
+}
+
+export type SettingType = {
+  _id: string
+  mycarId: MyCarType
+  tireId: TireType
+  freeText: string
+}

@@ -5,6 +5,9 @@ import { useRouter } from 'next/router'
 import getMyCar, { GetMyCarType } from '@/functions/fetch/getMycar'
 import checkAuth from '@/functions/fetch/checkAuth'
 import deleteMyCar from '@/functions/fetch/deleteMycar'
+import getActiveSettingsByMyCarId, {
+  GetActiveSettingsByMyCarIdType
+} from '@/functions/fetch/getActiveSettingsByMyCarIdType'
 
 // components
 import ImageUpload from '@/components/molecules/ImageUpload'
@@ -12,9 +15,10 @@ import ImageUpload from '@/components/molecules/ImageUpload'
 type PropTypes = {
   mycar: GetMyCarType
   isMycar: boolean
+  setting: GetActiveSettingsByMyCarIdType
 }
 
-const MyCar = ({ mycar, isMycar }: PropTypes) => {
+const MyCar = ({ mycar, isMycar, setting }: PropTypes) => {
   const router = useRouter()
 
   const handleDelete = async () => {
@@ -45,6 +49,16 @@ const MyCar = ({ mycar, isMycar }: PropTypes) => {
       <p>{mycar.car.drivetrains.system}</p>
       <p>{mycar.car.manufacturer.name}</p>
       {isMycar && <button onClick={handleDelete}>マイカーから削除する</button>}
+
+      {setting &&
+        setting.length > 0 &&
+        setting.map((value) => (
+          <>
+            <p>{value.freeText}</p>
+            <p>{value.tire.manufacturer.name}</p>
+            <p>{value.tire.name}</p>
+          </>
+        ))}
     </>
   )
 }
@@ -59,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   // ユーザーの車かどうか判別するための変数を宣言
   let isMycar = false
-
+  let settingData
   // データが存在しない場合、404 ページを表示
   if (!myCarData) {
     return {
@@ -69,16 +83,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const authResult = await checkAuth(context)
 
     // ログインしている場合、そのユーザーの車かどうか判別
-    if (authResult.isAuthenticated && myCarData.user._id === authResult.userId)
+    if (
+      authResult.isAuthenticated &&
+      myCarData.user._id === authResult.userId
+    ) {
       isMycar = true
+      settingData = await getActiveSettingsByMyCarId(myCarData._id)
+      console.log(settingData)
+    }
   }
 
-  console.log(myCarData)
   // データを props として渡す
   return {
     props: {
       mycar: myCarData,
-      isMycar: isMycar
+      isMycar: isMycar,
+      setting: settingData ? settingData : []
     }
   }
 }

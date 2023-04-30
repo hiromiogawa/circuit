@@ -1,20 +1,23 @@
 // setting.schema.ts
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-import { Tire } from '../../tires/schemas/tire.schema';
-import { MyCar } from '../../mycar/schemas/mycar.schema';
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose'
+import { Document, Types } from 'mongoose'
+import { Tire } from '../../tires/schemas/tire.schema'
+import { MyCar } from '../../mycar/schemas/mycar.schema'
 
 @Schema()
 export class Setting extends Document {
   @Prop({ required: true, type: Types.ObjectId, ref: MyCar.name })
-  mycarId: Types.ObjectId;
+  mycarId: Types.ObjectId
 
   @Prop({ required: true, type: Types.ObjectId, ref: Tire.name })
-  tireId: Types.ObjectId;
+  tireId: Types.ObjectId
 
   @Prop()
-  freeText: string;
+  freeText: string
+
+  @Prop({ default: true })
+  active: boolean
 }
 
-export const SettingSchema = SchemaFactory.createForClass(Setting);
-export type SettingDocument = Setting & Document;
+export const SettingSchema = SchemaFactory.createForClass(Setting)
+export type SettingDocument = Setting & Document

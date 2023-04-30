@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateSettingDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateSettingDto {
+    constructor() {
+        this.active = true;
+    }
 }
 __decorate([
     (0, class_validator_1.IsString)(),
@@ -28,5 +31,9 @@ __decorate([
     (0, class_validator_1.MinLength)(1),
     __metadata("design:type", String)
 ], CreateSettingDto.prototype, "freeText", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Boolean)
+], CreateSettingDto.prototype, "active", void 0);
 exports.CreateSettingDto = CreateSettingDto;
 //# sourceMappingURL=create-setting.dto.js.map

@@ -25,19 +25,42 @@ export class SettingsController {
     private readonly myCarsService: MyCarService
   ) {}
 
-  @Post()
+  // settingの作成
+  @Post('/mycar/:mycarId')
   @UseGuards(SessionGuard)
   @HttpCode(201)
   async create(
     @Req() req,
+    @Param('mycarId') mycarId: string,
     @Body() createSettingDto: CreateSettingDto
   ): Promise<Setting> {
     const userId = req.session.user._id
-    const mycarId = createSettingDto.mycarId
     if (await this.myCarsService.isUserRelatedToMyCar(userId, mycarId)) {
-      return this.settingsService.create(createSettingDto)
+      await this.settingsService.deactivatePreviousSetting(mycarId)
+      return this.settingsService.create({ ...createSettingDto, mycarId })
     } else {
       throw new UnauthorizedException("You don't have access to this car.")
+    }
+  }
+
+  // activeがtrueに設定されたデータを取得
+  @Get('/active/mycar/:mycarId')
+  async findActive(@Param('mycarId') mycarId: string): Promise<Setting[]> {
+    return this.settingsService.findActive(mycarId)
+  }
+
+  // 指定したセッティングidのデータのactiveをtrueにする
+  @Put(':id/activate')
+  @UseGuards(SessionGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async activate(@Req() req, @Param('id') id: string): Promise<void> {
+    const userId = req.session.user._id
+    if (await this.settingsService.isUserRelatedToSetting(userId, id)) {
+      const setting = await this.settingsService.findOne(id)
+      await this.settingsService.deactivatePreviousSetting(setting.mycarId)
+      await this.settingsService.activateSetting(id)
+    } else {
+      throw new UnauthorizedException("You don't have access to this setting.")
     }
   }
 
@@ -46,6 +69,7 @@ export class SettingsController {
     return this.settingsService.findOne(id)
   }
 
+  // マイカー別セッティングの取得
   @Get('mycar/:mycarId')
   async findAllByMyCarId(
     @Param('mycarId') mycarId: string

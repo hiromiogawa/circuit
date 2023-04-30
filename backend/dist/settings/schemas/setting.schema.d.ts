@@ -27,6 +27,7 @@ export declare class Setting extends Document {
     mycarId: Types.ObjectId;
     tireId: Types.ObjectId;
     freeText: string;
+    active: boolean;
 }
 export declare const SettingSchema: import("mongoose").Schema<Setting, import("mongoose").Model<Setting, any, any, any, Document<unknown, any, Setting> & Omit<Setting & {
     _id: Types.ObjectId;

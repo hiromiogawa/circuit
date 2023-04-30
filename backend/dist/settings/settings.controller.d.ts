@@ -6,7 +6,9 @@ export declare class SettingsController {
     private readonly settingsService;
     private readonly myCarsService;
     constructor(settingsService: SettingsService, myCarsService: MyCarService);
-    create(req: any, createSettingDto: CreateSettingDto): Promise<Setting>;
+    create(req: any, mycarId: string, createSettingDto: CreateSettingDto): Promise<Setting>;
+    findActive(mycarId: string): Promise<Setting[]>;
+    activate(req: any, id: string): Promise<void>;
     findOne(id: string): Promise<Setting>;
     findAllByMyCarId(mycarId: string): Promise<Setting[]>;
     update(req: any, id: string, updateSettingDto: CreateSettingDto): Promise<void>;

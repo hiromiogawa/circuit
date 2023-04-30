@@ -28,6 +28,10 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "freeText", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: true }),
+    __metadata("design:type", Boolean)
+], Setting.prototype, "active", void 0);
 Setting = __decorate([
     (0, mongoose_1.Schema)()
 ], Setting);

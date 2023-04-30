@@ -27,6 +27,31 @@ let SettingsService = class SettingsService {
         const createdSetting = new this.settingModel(createSettingDto);
         return createdSetting.save();
     }
+    async deactivatePreviousSetting(mycarId) {
+        await this.settingModel.updateMany({ mycarId, active: true }, { $set: { active: false } });
+    }
+    async activateSetting(id) {
+        const setting = await this.settingModel.findById(id);
+        if (setting) {
+            await this.settingModel.updateMany({ mycarId: setting.mycarId, active: true }, { $set: { active: false } });
+            setting.active = true;
+            await setting.save();
+        }
+        else {
+            throw new common_1.NotFoundException('Setting not found');
+        }
+    }
+    async findActive(mycarId) {
+        return this.settingModel
+            .find({ mycarId, active: true })
+            .populate({
+            path: 'mycarId'
+        })
+            .populate({
+            path: 'tireId'
+        })
+            .exec();
+    }
     async findAllByMyCarId(mycarId) {
         return await this.settingModel.find({ mycarId }).exec();
     }
