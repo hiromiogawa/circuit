@@ -5,6 +5,8 @@ import getCars from '@/functions/fetch/cars/getCars'
 import getManufacturers from '@/functions/fetch/manufacturers/getManufacturers'
 import createMycar from '@/functions/fetch/mycar/createMycar'
 
+import SelectCar from '@/components/molecules/SelectCar'
+
 import type { CarType, ManufacturerType } from '@/types/data'
 
 import { useRouter } from 'next/router'
@@ -13,24 +15,14 @@ import { useRouter } from 'next/router'
 import Layout from '@/components/common/Layout'
 
 type PropTypes = CheckAuthType & {
-  cars: CarType[] | false
+  cars: CarType[]
   manufacturers: ManufacturerType[]
 }
 
 const CreateMyCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
-  const [selectManufacturer, setSelectManufacturer] = useState<CarType[] | []>(
-    []
-  )
   const [selectedCar, setSelectedCar] = useState<string>('')
 
   const router = useRouter()
-
-  const handleManufacturerChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const sortCars = cars
-      ? cars.filter((car) => car.manufacturer.name === e.target.value)
-      : []
-    setSelectManufacturer(sortCars)
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -58,30 +50,11 @@ const CreateMyCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
     return (
       <Layout>
         <form onSubmit={handleSubmit}>
-          {manufacturers && (
-            <select onChange={handleManufacturerChange}>
-              <option value="">選択してください</option>
-              {manufacturers.map((manufacuturer) => (
-                <option key={`${manufacuturer.name}`}>
-                  {manufacuturer.name}
-                </option>
-              ))}
-            </select>
-          )}
-
-          {selectManufacturer.length > 0 && (
-            <select onChange={(e) => setSelectedCar(e.target.value)}>
-              <option>選択してください</option>
-              {selectManufacturer.map((car) => (
-                <option
-                  key={`${car.name}-${car.modelName}`}
-                  value={`${car._id}`}
-                >
-                  {car.name} {car.modelName}
-                </option>
-              ))}
-            </select>
-          )}
+          <SelectCar
+            cars={cars}
+            manufacturers={manufacturers}
+            setSelectedCar={setSelectedCar}
+          />
           <button type="submit" disabled={!selectedCar}>
             登録する
           </button>
@@ -96,9 +69,18 @@ export default CreateMyCar
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const authResult = await checkAuth(context)
-  const manufacturersData = await getManufacturers()
-  const carsData = await getCars()
+  const [authResult, manufacturersData, carsData] = await Promise.all([
+    checkAuth(context),
+    getManufacturers(),
+    getCars()
+  ])
+
+  // データが存在しない場合、404 ページを表示
+  if (!manufacturersData || !carsData) {
+    return {
+      notFound: true
+    }
+  }
 
   return {
     props: {

@@ -12,17 +12,15 @@ const SelectTire = ({
   tireManufacturers,
   setSelectedTire
 }: SelectTireType) => {
-  const [selectManufacturer, setSelectManufacturer] = useState<
-    TireManufacturerType[] | []
-  >([])
+  const [selectTires, setSelectTires] = useState<TireType[]>([])
 
   const handleTireManufacturerChange = (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    const sortCars = tires
+    const sortTires = tires
       ? tires.filter((tire) => tire.manufacturer._id === event.target.value)
       : []
-    setSelectManufacturer(sortCars)
+    setSelectTires(sortTires)
   }
 
   return (
@@ -38,10 +36,10 @@ const SelectTire = ({
         </select>
       )}
 
-      {selectManufacturer.length > 0 && (
+      {selectTires.length > 0 && (
         <select onChange={(e) => setSelectedTire(e.target.value)}>
           <option value="">タイヤを選択してください</option>
-          {selectManufacturer.map((tire) => (
+          {selectTires.map((tire) => (
             <option key={tire._id} value={tire._id}>
               {tire.name}
             </option>
