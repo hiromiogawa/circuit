@@ -49,5 +49,21 @@ export type SettingType = {
   _id: string
   mycarId: MyCarType
   tireId: TireType
+  airPressureFront: string
+  airPressureRear: string
+  springRateFront: string
+  springRateRear: string
+  rideHeightFront: string
+  rideHeightRear: string
+  damperAdjustmentFront: string
+  damperAdjustmentRear: string
+  camberAngleFront: string
+  camberAngleRear: string
+  rearSpoiler: string
+  boostPressure: string
+  tireSizeFront: string
+  tireSizeRear: string
+  toeAngleFront: string
+  toeAngleRear: string
   freeText: string
 }

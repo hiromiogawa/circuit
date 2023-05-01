@@ -21,8 +21,6 @@ const Setting = ({ setting, isMySetting }: PropTypes) => {
       <p>{settingValue.mycar.carId.name}</p>
       {!isEdit ? (
         <>
-          <p>{settingValue.mycar.userId.username}</p>
-          <p>{settingValue.mycar.carId.name}</p>
           <p>{settingValue.tire.manufacturer.name}</p>
           <p>{settingValue.tire.name}</p>
           <p>{settingValue.freeText}</p>

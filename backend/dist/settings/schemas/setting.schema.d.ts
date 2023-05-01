@@ -28,6 +28,22 @@ export declare class Setting extends Document {
     tireId: Types.ObjectId;
     freeText: string;
     active: boolean;
+    airPressureFront: string;
+    airPressureRear: string;
+    springRateFront: string;
+    springRateRear: string;
+    rideHeightFront: string;
+    rideHeightRear: string;
+    damperAdjustmentFront: string;
+    damperAdjustmentRear: string;
+    camberAngleFront: string;
+    camberAngleRear: string;
+    rearSpoiler: string;
+    boostPressure: string;
+    tireSizeFront: string;
+    tireSizeRear: string;
+    toeAngleFront: string;
+    toeAngleRear: string;
 }
 export declare const SettingSchema: import("mongoose").Schema<Setting, import("mongoose").Model<Setting, any, any, any, Document<unknown, any, Setting> & Omit<Setting & {
     _id: Types.ObjectId;

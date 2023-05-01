@@ -1,15 +1,17 @@
 import axios from 'axios'
 
+import type { SettingType } from '@/types/data'
+
 const createSetting = async (
-  mycarId: string,
-  tireId: string,
-  freeText: string
+  data: Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
+    tireId: string
+    mycarId: string
+  }
 ) => {
+  console.log(data)
   try {
     const res = await axios.post('/api/settings', {
-      mycarId,
-      tireId,
-      freeText
+      ...data
     })
 
     return res

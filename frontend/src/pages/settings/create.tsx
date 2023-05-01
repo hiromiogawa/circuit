@@ -8,7 +8,7 @@ import createSetting from '@/functions/fetch/settings/createSetting'
 
 import SelectTire from '@/components/molecules/SelectTire'
 
-import type { TireManufacturerType, TireType } from '@/types/data'
+import type { TireManufacturerType, TireType, SettingType } from '@/types/data'
 
 import { useRouter } from 'next/router'
 
@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 import Layout from '@/components/common/Layout'
 
 type PropTypes = CheckAuthType & {
-  myCars: GetMycarType[] | false
+  mycars: GetMycarType[] | false
   tireManufacturers: TireManufacturerType[]
   tires: TireType[]
   initialMycar: string
@@ -24,21 +24,89 @@ type PropTypes = CheckAuthType & {
 
 const CreateSetting = ({
   isAuthenticated,
-  myCars,
+  mycars,
   tireManufacturers,
   tires,
   initialMycar
 }: PropTypes) => {
-  const [selectedMycar, setSelectedMycar] = useState<string>('')
-  const [selectedTire, setSelectedTire] = useState<string>('')
-  const [freeText, setFreeText] = useState<string>('')
+  const [settingValue, setSettingValue] = useState<
+    Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
+      tireId: string
+      mycarId: string
+      [key: string]: string
+    }
+  >({
+    mycarId: initialMycar,
+    tireId: '',
+    tireSizeFront: '',
+    tireSizeRear: '',
+    airPressureFront: '',
+    airPressureRear: '',
+    springRateFront: '',
+    springRateRear: '',
+    rideHeightFront: '',
+    rideHeightRear: '',
+    damperAdjustmentFront: '',
+    damperAdjustmentRear: '',
+    camberAngleFront: '',
+    camberAngleRear: '',
+    toeAngleFront: '',
+    toeAngleRear: '',
+    rearSpoiler: '',
+    boostPressure: '',
+    freeText: ''
+  })
 
   const router = useRouter()
 
+  const formFields: {
+    label: string
+    name: string
+    subFields: string[]
+  }[] = [
+    {
+      label: 'タイヤサイズ',
+      name: 'tireSize',
+      subFields: ['Front', 'Rear']
+    },
+    {
+      label: 'タイヤ空気圧',
+      name: 'airPressure',
+      subFields: ['Front', 'Rear']
+    },
+    {
+      label: 'バネレート',
+      name: 'springRate',
+      subFields: ['Front', 'Rear']
+    },
+    {
+      label: '車高',
+      name: 'rideHeight',
+      subFields: ['Front', 'Rear']
+    },
+    {
+      label: '減衰力',
+      name: 'damperAdjustment',
+      subFields: ['Front', 'Rear']
+    },
+    {
+      label: 'キャンバー角',
+      name: 'camberAngle',
+      subFields: ['Front', 'Rear']
+    },
+    {
+      label: 'トー角',
+      name: 'toeAngle',
+      subFields: ['Front', 'Rear']
+    }
+  ]
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const result = await createSetting(selectedMycar, selectedTire, freeText)
-    console.log(result)
+
+    console.log(settingValue)
+
+    const result = await createSetting(settingValue)
     if (!result) {
       console.error('Failed to create setting')
     } else {
@@ -47,48 +115,105 @@ const CreateSetting = ({
     }
   }
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login')
-    } else {
-      setSelectedMycar(initialMycar)
-    }
-  }, [isAuthenticated])
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target
+    setSettingValue((prevState) => ({ ...prevState, [name]: value }))
+  }
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    if (!isAuthenticated) router.push('/login')
+    if (!mycars) router.push('/mycar/create')
+  }, [])
+
+  useEffect(() => {
+    console.log(settingValue)
+  }, [settingValue])
+
+  if (!isAuthenticated || !mycars) {
     return null
   }
 
   return (
     <Layout>
       <form onSubmit={handleSubmit}>
-        {myCars && (
-          <select
-            value={initialMycar}
-            onChange={(e) => setSelectedMycar(e.target.value)}
-          >
-            <option value="">マイカーを選択してください</option>
-            {myCars.map((myCar) => (
-              <option key={myCar._id} value={myCar._id}>
-                {myCar.car.name} {myCar.car.modelName}
-              </option>
-            ))}
-          </select>
-        )}
+        <select
+          name="mycarId"
+          value={settingValue.mycarId}
+          onChange={handleChange}
+        >
+          <option value="">マイカーを選択してください</option>
+          {mycars.map((mycar) => (
+            <option key={mycar._id} value={mycar._id}>
+              {mycar.car.name} {mycar.car.modelName}
+            </option>
+          ))}
+        </select>
 
-        <SelectTire
-          tires={tires}
-          tireManufacturers={tireManufacturers}
-          setSelectedTire={setSelectedTire}
-        />
+        <div>
+          <p>タイヤ</p>
+          <SelectTire
+            tires={tires}
+            tireManufacturers={tireManufacturers}
+            setSelectedTire={(tireId) =>
+              setSettingValue((prevState) => ({
+                ...prevState,
+                tireId: tireId
+              }))
+            }
+          />
+        </div>
+
+        {formFields.map((field) => (
+          <div key={field.name}>
+            <p>{field.label}</p>
+            {field.subFields.map((subField) => (
+              <label key={`${field.name}${subField}`}>
+                {subField}
+                <input
+                  name={`${field.name}${subField}`}
+                  type="text"
+                  value={settingValue[`${field.name}${subField}`]}
+                  onChange={handleChange}
+                />
+              </label>
+            ))}
+          </div>
+        ))}
+
+        <div>
+          <p>リアスポイラ</p>
+          <input
+            name="rearSpoiler"
+            type="text"
+            value={settingValue.rearSpoiler}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <p>ブースト圧</p>
+          <input
+            name="boostPressure"
+            type="text"
+            value={settingValue.boostPressure}
+            onChange={handleChange}
+          />
+        </div>
 
         <textarea
-          onChange={(e) => setFreeText(e.target.value)}
-          value={freeText}
+          name="freeText"
+          onChange={handleChange}
+          value={settingValue.freeText}
           placeholder="フリーテキスト (オプション)"
         ></textarea>
 
-        <button type="submit" disabled={!selectedMycar && !selectedTire}>
+        <button
+          type="submit"
+          disabled={!settingValue.mycarId || !settingValue.tireId}
+        >
           設定を追加
         </button>
       </form>
@@ -113,7 +238,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
   return {
     props: {
-      myCars: myCarsData,
+      mycars: myCarsData,
       tireManufacturers: tireManufacturersData,
       initialMycar,
       tires: tiresData,

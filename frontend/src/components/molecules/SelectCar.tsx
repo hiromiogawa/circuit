@@ -12,7 +12,6 @@ const SelectCar = ({ cars, manufacturers, setSelectedCar }: SelectCarType) => {
   const [seletcCars, setSelecCars] = useState<CarType[]>([])
 
   const handleManufacturerChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(cars)
     const sortCars = cars
       ? cars.filter((car) => car.manufacturer._id === e.target.value)
       : []
