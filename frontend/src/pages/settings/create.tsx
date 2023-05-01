@@ -1,10 +1,12 @@
-import { useState, ChangeEvent, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import checkAuth, { CheckAuthType } from '@/functions/fetch/auth/checkAuth'
 import getMycars, { GetMycarType } from '@/functions/fetch/mycar/getMycars'
 import getTireManufacturers from '@/functions/fetch/tireManufacturers/getTireManufacturers'
 import getTires from '@/functions/fetch/tires/getTires'
 import createSetting from '@/functions/fetch/settings/createSetting'
+
+import SelectTire from '@/components/molecules/SelectTire'
 
 import type { TireManufacturerType, TireType } from '@/types/data'
 
@@ -27,27 +29,11 @@ const CreateSetting = ({
   tires,
   initialMycar
 }: PropTypes) => {
-  const [selectManufacturer, setSelectManufacturer] = useState<
-    TireManufacturerType[] | []
-  >([])
   const [selectedMycar, setSelectedMycar] = useState<string>('')
   const [selectedTire, setSelectedTire] = useState<string>('')
   const [freeText, setFreeText] = useState<string>('')
 
   const router = useRouter()
-
-  const handleTireManufacturerChange = (
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    const sortCars = tires
-      ? tires.filter((tire) => tire.manufacturer._id === event.target.value)
-      : []
-    setSelectManufacturer(sortCars)
-  }
-
-  const handleTireChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTire(e.target.value)
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -90,27 +76,11 @@ const CreateSetting = ({
           </select>
         )}
 
-        {tireManufacturers && (
-          <select onChange={handleTireManufacturerChange}>
-            <option value="">タイヤメーカーを選択してください</option>
-            {tireManufacturers.map((manufacturer) => (
-              <option key={manufacturer._id} value={manufacturer._id}>
-                {manufacturer.name}
-              </option>
-            ))}
-          </select>
-        )}
-
-        {selectManufacturer.length > 0 && (
-          <select onChange={handleTireChange}>
-            <option value="">タイヤを選択してください</option>
-            {selectManufacturer.map((tire) => (
-              <option key={tire._id} value={tire._id}>
-                {tire.name}
-              </option>
-            ))}
-          </select>
-        )}
+        <SelectTire
+          tires={tires}
+          tireManufacturers={tireManufacturers}
+          setSelectedTire={setSelectedTire}
+        />
 
         <textarea
           onChange={(e) => setFreeText(e.target.value)}

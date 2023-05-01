@@ -9,21 +9,27 @@ import checkAuth from '@/functions/fetch/auth/checkAuth'
 
 type PropTypes = {
   setting: GetSettingType
-  isMycar: boolean
+  isMySetting: boolean
 }
 
-const Setting = ({ setting, isMycar }: PropTypes) => {
+const Setting = ({ setting, isMySetting }: PropTypes) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [settingValue, setSettingValue] = useState<GetSettingType>(setting)
   return (
     <>
-      <div>
-        <p>{settingValue.mycar.userId.username}</p>
-        <p>{settingValue.mycar.carId.name}</p>
-        <p>{settingValue.tire.manufacturer.name}</p>
-        <p>{settingValue.tire.name}</p>
-        <p>{settingValue.freeText}</p>
-      </div>
+      <p>{settingValue.mycar.userId.username}</p>
+      <p>{settingValue.mycar.carId.name}</p>
+      {!isEdit ? (
+        <>
+          <p>{settingValue.mycar.userId.username}</p>
+          <p>{settingValue.mycar.carId.name}</p>
+          <p>{settingValue.tire.manufacturer.name}</p>
+          <p>{settingValue.tire.name}</p>
+          <p>{settingValue.freeText}</p>
+        </>
+      ) : (
+        <form></form>
+      )}
     </>
   )
 }
