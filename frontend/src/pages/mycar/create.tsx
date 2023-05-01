@@ -25,19 +25,17 @@ const CreateMyCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
 
   const router = useRouter()
 
-  const handleManufacturerChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleManufacturerChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const sortCars = cars
-      ? cars.filter((car) => car.manufacturer.name === event.target.value)
+      ? cars.filter((car) => car.manufacturer.name === e.target.value)
       : []
     setSelectManufacturer(sortCars)
   }
 
-  const handleCarChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCar(event.target.value)
-  }
-
-  const handleClick = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const result = await createMycar(selectedCar)
+    console.log(result)
     if (!result) {
       console.error('Failed to create my car')
     } else {
@@ -59,30 +57,35 @@ const CreateMyCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
   if (isAuthenticated) {
     return (
       <Layout>
-        {manufacturers && (
-          <select onChange={handleManufacturerChange}>
-            <option value="">選択してください</option>
-            {manufacturers.map((manufacuturer) => (
-              <option key={`${manufacuturer.name}`}>
-                {manufacuturer.name}
-              </option>
-            ))}
-          </select>
-        )}
+        <form onSubmit={handleSubmit}>
+          {manufacturers && (
+            <select onChange={handleManufacturerChange}>
+              <option value="">選択してください</option>
+              {manufacturers.map((manufacuturer) => (
+                <option key={`${manufacuturer.name}`}>
+                  {manufacuturer.name}
+                </option>
+              ))}
+            </select>
+          )}
 
-        {selectManufacturer.length > 0 && (
-          <select onChange={handleCarChange}>
-            <option>選択してください</option>
-            {selectManufacturer.map((car) => (
-              <option key={`${car.name}-${car.modelName}`} value={`${car._id}`}>
-                {car.name} {car.modelName}
-              </option>
-            ))}
-          </select>
-        )}
-        <button disabled={!selectedCar} onClick={handleClick}>
-          登録する
-        </button>
+          {selectManufacturer.length > 0 && (
+            <select onChange={(e) => setSelectedCar(e.target.value)}>
+              <option>選択してください</option>
+              {selectManufacturer.map((car) => (
+                <option
+                  key={`${car.name}-${car.modelName}`}
+                  value={`${car._id}`}
+                >
+                  {car.name} {car.modelName}
+                </option>
+              ))}
+            </select>
+          )}
+          <button type="submit" disabled={!selectedCar}>
+            登録する
+          </button>
+        </form>
       </Layout>
     )
   }

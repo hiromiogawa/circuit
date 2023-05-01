@@ -45,25 +45,19 @@ const CreateSetting = ({
     setSelectManufacturer(sortCars)
   }
 
-  const handleMycarChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedMycar(event.target.value)
+  const handleTireChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTire(e.target.value)
   }
 
-  const handleTireChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTire(event.target.value)
-  }
-
-  const handleFreeTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setFreeText(event.target.value)
-  }
-
-  const handleClick = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const result = await createSetting(selectedMycar, selectedTire, freeText)
+    console.log(result)
     if (!result) {
       console.error('Failed to create setting')
     } else {
       console.log('Setting created successfully')
-      //router.push(`/setting/${result.data._id}`)
+      router.push(`/settings/${result.data._id}`)
     }
   }
 
@@ -81,48 +75,53 @@ const CreateSetting = ({
 
   return (
     <Layout>
-      {myCars && (
-        <select value={initialMycar} onChange={handleMycarChange}>
-          <option value="">マイカーを選択してください</option>
-          {myCars.map((myCar) => (
-            <option key={myCar._id} value={myCar._id}>
-              {myCar.car.name} {myCar.car.modelName}
-            </option>
-          ))}
-        </select>
-      )}
+      <form onSubmit={handleSubmit}>
+        {myCars && (
+          <select
+            value={initialMycar}
+            onChange={(e) => setSelectedMycar(e.target.value)}
+          >
+            <option value="">マイカーを選択してください</option>
+            {myCars.map((myCar) => (
+              <option key={myCar._id} value={myCar._id}>
+                {myCar.car.name} {myCar.car.modelName}
+              </option>
+            ))}
+          </select>
+        )}
 
-      {tireManufacturers && (
-        <select onChange={handleTireManufacturerChange}>
-          <option value="">タイヤメーカーを選択してください</option>
-          {tireManufacturers.map((manufacturer) => (
-            <option key={manufacturer._id} value={manufacturer._id}>
-              {manufacturer.name}
-            </option>
-          ))}
-        </select>
-      )}
+        {tireManufacturers && (
+          <select onChange={handleTireManufacturerChange}>
+            <option value="">タイヤメーカーを選択してください</option>
+            {tireManufacturers.map((manufacturer) => (
+              <option key={manufacturer._id} value={manufacturer._id}>
+                {manufacturer.name}
+              </option>
+            ))}
+          </select>
+        )}
 
-      {selectManufacturer.length > 0 && (
-        <select onChange={handleTireChange}>
-          <option value="">タイヤを選択してください</option>
-          {selectManufacturer.map((tire) => (
-            <option key={tire._id} value={tire._id}>
-              {tire.name}
-            </option>
-          ))}
-        </select>
-      )}
+        {selectManufacturer.length > 0 && (
+          <select onChange={handleTireChange}>
+            <option value="">タイヤを選択してください</option>
+            {selectManufacturer.map((tire) => (
+              <option key={tire._id} value={tire._id}>
+                {tire.name}
+              </option>
+            ))}
+          </select>
+        )}
 
-      <textarea
-        onChange={handleFreeTextChange}
-        value={freeText}
-        placeholder="フリーテキスト (オプション)"
-      ></textarea>
+        <textarea
+          onChange={(e) => setFreeText(e.target.value)}
+          value={freeText}
+          placeholder="フリーテキスト (オプション)"
+        ></textarea>
 
-      <button disabled={!selectedMycar && !selectedTire} onClick={handleClick}>
-        設定を追加
-      </button>
+        <button type="submit" disabled={!selectedMycar && !selectedTire}>
+          設定を追加
+        </button>
+      </form>
     </Layout>
   )
 }

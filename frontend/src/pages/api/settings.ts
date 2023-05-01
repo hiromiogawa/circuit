@@ -11,7 +11,7 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
           freeText: req.body.freeText
         }
 
-        const response = await axios.post(
+        const backendRes = await axios.post(
           `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/settings/mycar/${mycarId}`,
           createSettingDto,
           {
@@ -22,7 +22,7 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
           }
         )
 
-        res.status(201).json(response.data)
+        res.status(201).json(backendRes.data)
       } catch (error: any) {
         res.status(error.response.status).json(error.response.data)
       }

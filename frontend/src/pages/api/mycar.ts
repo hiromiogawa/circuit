@@ -17,8 +17,7 @@ const mycarEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
             }
           }
         )
-        const createdMyCar = backendRes.data
-        res.status(201).json(createdMyCar)
+        res.status(201).json(backendRes.data)
       } catch (error: any) {
         console.error('Error in API endpoint:', error.message)
         res.status(500).json({ message: error.message })

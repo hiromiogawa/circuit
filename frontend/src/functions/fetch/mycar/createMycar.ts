@@ -1,12 +1,11 @@
 import axios from 'axios'
-import { MyCarType } from '@/types/data'
 
 const createMycar = async (carId: string) => {
   try {
-    const newMyCar: Promise<{
-      data: MyCarType
-    }> = axios.post('/api/mycar', { carId: carId })
-    return newMyCar
+    const res = axios.post('/api/mycar', {
+      carId
+    })
+    return res
   } catch (error) {
     console.error('Failed to create my car:', error)
     return false
