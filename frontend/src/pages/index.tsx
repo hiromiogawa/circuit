@@ -2,10 +2,10 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { useRouter } from 'next/router'
 
 // myFunctions
-import checkAuth, { CheckAuthType } from '@/functions/fetch/checkAuth'
-import getMycars, { GetMycarType } from '@/functions/fetch/getMycars'
-import getUser, { GetUserType } from '@/functions/fetch/getUser'
-import logout from '@/functions/fetch/logout'
+import checkAuth, { CheckAuthType } from '@/functions/fetch/auth/checkAuth'
+import getMycars, { GetMycarType } from '@/functions/fetch/mycar/getMycars'
+import getUser, { GetUserType } from '@/functions/fetch/users/getUser'
+import logout from '@/functions/fetch/auth/logout'
 
 // components
 import Link from 'next/link'
@@ -68,7 +68,17 @@ const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
       </Layout>
     )
   } else {
-    return <p>Please log in.</p>
+    return (
+      <>
+        <Link href="/login">
+          <CircleButton>login</CircleButton>
+        </Link>
+        <Link href="/signup">
+          <CircleButton>signup</CircleButton>
+        </Link>
+        <p>Please log in.</p>
+      </>
+    )
   }
 }
 
@@ -79,18 +89,26 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const authResult = await checkAuth(context)
 
-  let mycarData
-  let user
-  if (authResult.isAuthenticated) {
-    user = await getUser(context)
-    mycarData = await getMycars(context)
+  if (!authResult.isAuthenticated) {
+    return {
+      props: {
+        mycar: [],
+        isAuthenticated: false,
+        user: null
+      }
+    }
   }
+
+  const [user, mycarData] = await Promise.all([
+    getUser(context),
+    getMycars(context)
+  ])
 
   return {
     props: {
-      mycar: authResult.isAuthenticated && mycarData ? mycarData : [],
+      mycar: mycarData,
       isAuthenticated: authResult.isAuthenticated,
-      user: user ? user : null
+      user
     }
   }
 }

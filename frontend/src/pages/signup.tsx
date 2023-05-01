@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-import upload from '@/functions/upload'
-
 const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

@@ -64,7 +64,17 @@ export class SettingsService {
   }
 
   async findOne(id: string): Promise<Setting> {
-    const setting = await this.settingModel.findById(id).exec()
+    const setting = await this.settingModel
+      .findById(id)
+      .populate({
+        path: 'mycarId',
+        populate: [{ path: 'userId' }, { path: 'carId' }]
+      })
+      .populate({
+        path: 'tireId',
+        populate: [{ path: 'manufacturer' }]
+      })
+      .exec()
     if (!setting) {
       throw new NotFoundException('Setting not found')
     }

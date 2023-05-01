@@ -57,7 +57,17 @@ let SettingsService = class SettingsService {
         return await this.settingModel.find({ mycarId }).exec();
     }
     async findOne(id) {
-        const setting = await this.settingModel.findById(id).exec();
+        const setting = await this.settingModel
+            .findById(id)
+            .populate({
+            path: 'mycarId',
+            populate: [{ path: 'userId' }, { path: 'carId' }]
+        })
+            .populate({
+            path: 'tireId',
+            populate: [{ path: 'manufacturer' }]
+        })
+            .exec();
         if (!setting) {
             throw new common_1.NotFoundException('Setting not found');
         }

@@ -9,7 +9,7 @@ export type GetActiveSettingsByMyCarIdType = {
   freeText: SettingType['freeText']
 }[]
 
-const getActiveSettingsByMyCarId = async (
+const getActiveSettingByMyCarId = async (
   mycarId: string
 ): Promise<GetActiveSettingsByMyCarIdType | false> => {
   try {
@@ -30,4 +30,4 @@ const getActiveSettingsByMyCarId = async (
   }
 }
 
-export default getActiveSettingsByMyCarId
+export default getActiveSettingByMyCarId

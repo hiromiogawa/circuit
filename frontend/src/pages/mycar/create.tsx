@@ -1,9 +1,9 @@
 import { useState, ChangeEvent, useEffect } from 'react'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import checkAuth, { CheckAuthType } from '@/functions/fetch/checkAuth'
-import getCars from '@/functions/fetch/getCars'
-import getManufacturers from '@/functions/fetch/getManufacturers'
-import createMycar from '@/functions/fetch/createMycar'
+import checkAuth, { CheckAuthType } from '@/functions/fetch/auth/checkAuth'
+import getCars from '@/functions/fetch/cars/getCars'
+import getManufacturers from '@/functions/fetch/manufacturers/getManufacturers'
+import createMycar from '@/functions/fetch/mycar/createMycar'
 
 import type { CarType, ManufacturerType } from '@/types/data'
 

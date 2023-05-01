@@ -2,12 +2,12 @@ import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
 // myFunctions
-import getMycar, { GetMycarType } from '@/functions/fetch/getMycar'
-import checkAuth from '@/functions/fetch/checkAuth'
-import deleteMyCar from '@/functions/fetch/deleteMycar'
+import getMycar, { GetMycarType } from '@/functions/fetch/mycar/getMycar'
+import checkAuth from '@/functions/fetch/auth/checkAuth'
+import deleteMyCar from '@/functions/fetch/mycar/deleteMycar'
 import getActiveSettingsByMyCarId, {
   GetActiveSettingsByMyCarIdType
-} from '@/functions/fetch/getActiveSettingsByMyCarIdType'
+} from '@/functions/fetch/settings/getActiveSettingByMyCarIdType'
 
 // components
 import Link from 'next/link'

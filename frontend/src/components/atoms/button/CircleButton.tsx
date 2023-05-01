@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export type CircleType = {
   children: string
-  handleClcik: () => {}
+  handleClcik?: () => {}
   type?: 'blue' | 'red' | 'white'
 }
 
@@ -23,7 +23,7 @@ const Circle = ({ children, type = 'blue', handleClcik }: CircleType) => {
   }
 
   return (
-    <StyledButton onClick={handleClcik} textColor={textColor}>
+    <StyledButton onClick={handleClcik && handleClcik} textColor={textColor}>
       <span>{children}</span>
     </StyledButton>
   )

@@ -1,10 +1,10 @@
 import { useState, ChangeEvent, useEffect } from 'react'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import checkAuth, { CheckAuthType } from '@/functions/fetch/checkAuth'
-import getMycars, { GetMycarType } from '@/functions/fetch/getMycars'
-import getTireManufacturers from '@/functions/fetch/getTireManufacturers'
-import getTires from '@/functions/fetch/getTires'
-import createSetting from '@/functions/fetch/createSetting'
+import checkAuth, { CheckAuthType } from '@/functions/fetch/auth/checkAuth'
+import getMycars, { GetMycarType } from '@/functions/fetch/mycar/getMycars'
+import getTireManufacturers from '@/functions/fetch/tireManufacturers/getTireManufacturers'
+import getTires from '@/functions/fetch/tires/getTires'
+import createSetting from '@/functions/fetch/settings/createSetting'
 
 import type { TireManufacturerType, TireType } from '@/types/data'
 

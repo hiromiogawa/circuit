@@ -28,8 +28,8 @@ export type CarType = {
 }
 
 export type MyCarType = {
-  carId: CarType['_id']
-  userId: UserType['_id']
+  carId: CarType
+  userId: UserType
   _id: string
   imagePath: string
 }
