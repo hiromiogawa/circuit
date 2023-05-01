@@ -18,15 +18,17 @@ type PropTypes = {
   isMySetting: boolean
   tireManufacturers: TireManufacturerType[]
   tires: TireType[]
+  settingId: string
 }
 
 const Setting = ({
   setting,
   isMySetting,
   tires,
-  tireManufacturers
+  tireManufacturers,
+  settingId
 }: PropTypes) => {
-  const [isEdit, setIsEdit] = useState<boolean>(true)
+  const [isEdit, setIsEdit] = useState<boolean>(false)
   const [settingValue, setSettingValue] = useState<
     Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
       tireId?: string
@@ -72,6 +74,9 @@ const Setting = ({
           {/* <p>{tire?.manufacturer}</p> */}
           <p>{tire?.name}</p>
           <p>{setting.freeText}</p>
+          {isMySetting && (
+            <button onClick={() => setIsEdit(true)}>修正する</button>
+          )}
         </>
       ) : (
         isMySetting &&
@@ -85,8 +90,9 @@ const Setting = ({
             tireManufacturers={tireManufacturers}
             tires={tires}
             type="put"
-            setSettingValue={setSettingValue}
+            setParentSettingValue={setSettingValue}
             setIsEdit={setIsEdit}
+            settingId={settingId}
           />
         )
       )}
@@ -140,7 +146,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       setting: settingData,
       tires: tiresData ? tiresData : false,
       tireManufacturers: tireManufacturersData ? tireManufacturersData : false,
-      isMySetting
+      isMySetting,
+      settingId
     }
   }
 }

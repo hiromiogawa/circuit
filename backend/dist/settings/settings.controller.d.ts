@@ -11,6 +11,6 @@ export declare class SettingsController {
     activate(req: any, id: string): Promise<void>;
     findOne(id: string): Promise<Setting>;
     findAllByMyCarId(mycarId: string): Promise<Setting[]>;
-    update(req: any, id: string, updateSettingDto: CreateSettingDto): Promise<void>;
+    update(req: any, id: string, updateSettingDto: CreateSettingDto): Promise<Setting>;
     delete(req: any, id: string): Promise<void>;
 }

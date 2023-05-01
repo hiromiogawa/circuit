@@ -81,13 +81,17 @@ export class SettingsService {
     return setting
   }
 
-  async update(id: string, updateSettingDto: CreateSettingDto): Promise<void> {
+  async update(
+    id: string,
+    updateSettingDto: CreateSettingDto
+  ): Promise<Setting> {
     const updatedSetting = await this.settingModel
-      .findByIdAndUpdate(id, updateSettingDto)
+      .findByIdAndUpdate(id, updateSettingDto, { new: true })
       .exec()
     if (!updatedSetting) {
       throw new NotFoundException('Setting not found')
     }
+    return updatedSetting
   }
 
   async delete(id: string): Promise<void> {

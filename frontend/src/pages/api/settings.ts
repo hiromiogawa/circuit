@@ -46,13 +46,9 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
 
     case 'PUT':
       try {
-        const _id = req.body._id
-        const mycarId = req.body.mycarId
-        const updateSettingDto = { ...req.body }
-
         const backendRes = await axios.put(
-          `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/settings/mycar/${mycarId}/${_id}`,
-          updateSettingDto,
+          `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/settings/${req.body._id}`,
+          req.body.data,
           {
             headers: {
               cookie: req.headers.cookie || ''
@@ -85,7 +81,6 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
             }
           }
         )
-
         res.status(204).end()
       } catch (error) {
         res.status(500).json({ message: 'Error deleting MyCar entry' })

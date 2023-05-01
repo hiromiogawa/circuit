@@ -56,7 +56,7 @@ let SettingsController = class SettingsController {
     async update(req, id, updateSettingDto) {
         const userId = req.session.user._id;
         if (await this.settingsService.isUserRelatedToSetting(userId, id)) {
-            await this.settingsService.update(id, updateSettingDto);
+            return await this.settingsService.update(id, updateSettingDto);
         }
         else {
             throw new common_1.UnauthorizedException("You don't have access to this setting.");
@@ -117,7 +117,7 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id'),
     (0, common_1.UseGuards)(session_guard_1.SessionGuard),
-    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('id')),
     __param(2, (0, common_1.Body)()),

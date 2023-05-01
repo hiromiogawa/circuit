@@ -75,11 +75,12 @@ let SettingsService = class SettingsService {
     }
     async update(id, updateSettingDto) {
         const updatedSetting = await this.settingModel
-            .findByIdAndUpdate(id, updateSettingDto)
+            .findByIdAndUpdate(id, updateSettingDto, { new: true })
             .exec();
         if (!updatedSetting) {
             throw new common_1.NotFoundException('Setting not found');
         }
+        return updatedSetting;
     }
     async delete(id) {
         const deletedSetting = await this.settingModel.findByIdAndDelete(id).exec();

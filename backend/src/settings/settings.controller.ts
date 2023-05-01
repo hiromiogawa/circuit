@@ -79,15 +79,15 @@ export class SettingsController {
 
   @Put(':id')
   @UseGuards(SessionGuard)
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   async update(
     @Req() req,
     @Param('id') id: string,
     @Body() updateSettingDto: CreateSettingDto
-  ): Promise<void> {
+  ): Promise<Setting> {
     const userId = req.session.user._id
     if (await this.settingsService.isUserRelatedToSetting(userId, id)) {
-      await this.settingsService.update(id, updateSettingDto)
+      return await this.settingsService.update(id, updateSettingDto)
     } else {
       throw new UnauthorizedException("You don't have access to this setting.")
     }

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 
 // functions
 import createSetting from '@/functions/fetch/settings/post'
+import updateSetting from '@/functions/fetch/updateSetting'
 
 // components
 import SelectTire from '@/components/molecules/SelectTire'
@@ -24,8 +25,8 @@ type PropTypes = {
     [key: string]: string | undefined
   }
   type: 'create' | 'put'
-  // putの場合のみ
-  setSettingValue?: (
+  //以下の値はputの場合のみ
+  setParentSettingValue?: (
     value: Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
       tireId: string
       mycarId: string
@@ -33,6 +34,7 @@ type PropTypes = {
     }
   ) => void
   setIsEdit?: (value: boolean) => void
+  settingId?: string
 }
 
 const SettingForm = ({
@@ -40,7 +42,10 @@ const SettingForm = ({
   tireManufacturers,
   tires,
   initialSettingValue,
-  type
+  type,
+  setParentSettingValue = () => {},
+  setIsEdit = () => {},
+  settingId = ''
 }: PropTypes) => {
   const [settingValue, setSettingValue] = useState<
     Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
@@ -173,20 +178,33 @@ const SettingForm = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    let result
 
     switch (type) {
       case 'create':
-        result = await createSetting(settingValue)
-        //if (type === 'put') result = await putSetting(id, settingValue)
+        try {
+          const result = await createSetting(settingValue)
+          if (result) {
+            console.log(`Setting ${type} successfully`)
+            router.push(`/settings/${result.data._id}`)
+          }
+        } catch (error: any) {
+          console.error(`Failed to ${type} setting`)
+        }
         break
-    }
-
-    if (!result) {
-      console.error('Failed to create setting')
-    } else {
-      console.log(`Setting ${type} successfully`)
-      router.push(`/settings/${result.data._id}`)
+      case 'put':
+        try {
+          const result = await updateSetting(settingId, settingValue)
+          if (result) {
+            console.log(`Setting ${type} successfully`)
+            setParentSettingValue(settingValue)
+            setIsEdit(false)
+          }
+        } catch (error: any) {
+          console.error(`Failed to ${type} setting`)
+        }
+        break
+      default:
+        break
     }
   }
 
@@ -198,8 +216,6 @@ const SettingForm = ({
     const { name, value } = e.target
     setSettingValue((prevState) => ({ ...prevState, [name]: value }))
   }
-
-  console.log(settingValue.tireId)
 
   return (
     <form onSubmit={handleSubmit}>

@@ -12,7 +12,7 @@ export declare class SettingsService {
     findActive(mycarId: string): Promise<Setting[]>;
     findAllByMyCarId(mycarId: string): Promise<Setting[]>;
     findOne(id: string): Promise<Setting>;
-    update(id: string, updateSettingDto: CreateSettingDto): Promise<void>;
+    update(id: string, updateSettingDto: CreateSettingDto): Promise<Setting>;
     delete(id: string): Promise<void>;
     isUserRelatedToSetting(userId: string, settingId: string): Promise<boolean>;
 }

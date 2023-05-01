@@ -35,10 +35,6 @@ const SelectTire = ({
     setSelectTires(sortTires)
   }, [selectManufacturerId])
 
-  useEffect(() => {
-    console.log(selectTire)
-  }, [selectTire])
-
   return (
     <>
       {tireManufacturers && (
