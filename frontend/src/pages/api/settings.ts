@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'POST':
-      console.log(req.body)
       try {
         const mycarId = req.body.mycarId
         const createSettingDto = {
@@ -40,6 +39,29 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
         )
 
         res.status(201).json(backendRes.data)
+      } catch (error: any) {
+        res.status(error.response.status).json(error.response.data)
+      }
+      break
+
+    case 'PUT':
+      try {
+        const _id = req.body._id
+        const mycarId = req.body.mycarId
+        const updateSettingDto = { ...req.body }
+
+        const backendRes = await axios.put(
+          `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/settings/mycar/${mycarId}/${_id}`,
+          updateSettingDto,
+          {
+            headers: {
+              cookie: req.headers.cookie || ''
+            },
+            withCredentials: true
+          }
+        )
+
+        res.status(200).json(backendRes.data)
       } catch (error: any) {
         res.status(error.response.status).json(error.response.data)
       }

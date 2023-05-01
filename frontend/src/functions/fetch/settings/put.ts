@@ -2,15 +2,16 @@ import axios from 'axios'
 
 import type { SettingType } from '@/types/data'
 
-const createSetting = async (
+const updateSetting = async (
+  _id: SettingType['_id'],
   data: Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
     tireId: string
     mycarId: string
   }
 ) => {
-  console.log(data)
   try {
-    const res = await axios.post('/api/settings', {
+    const res = await axios.put('/api/settings', {
+      _id,
       ...data
     })
 
@@ -21,4 +22,4 @@ const createSetting = async (
   }
 }
 
-export default createSetting
+export default updateSetting
