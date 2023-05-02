@@ -22,7 +22,7 @@ type PropTypes = {
   > & {
     tireId?: string
     mycarId?: string
-    tireManufacturerId: string
+    tireManufacturerId?: string
     [key: string]: string | undefined
   }
   type: 'create' | 'put'

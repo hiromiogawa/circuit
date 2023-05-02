@@ -64,6 +64,7 @@ const Setting = ({
   )
 
   useEffect(() => {
+    console.log(tires)
     if (tires && settingValue.tireId !== tire?._id)
       setTire(tires.find((tire) => tire._id === settingValue.tireId))
   }, [settingValue])
@@ -131,9 +132,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // ユーザーの車かどうか判別するための変数を宣言
   let isMySetting = false
 
-  let tiresData
-  let tireManufacturersData
-
   // データが存在しない場合、404 ページを表示
   if (!settingData) {
     return {
@@ -148,17 +146,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       settingData.mycarId.userId._id === authResult.userId
     ) {
       isMySetting = true
-
-      // Promise.all() を使用して、並行して非同期処理を実行
-      const [tiresRes, tireManufacturersRes] = await Promise.all([
-        getTires(),
-        getTireManufacturers()
-      ])
-
-      tiresData = tiresRes
-      tireManufacturersData = tireManufacturersRes
     }
   }
+
+  // Promise.all() を使用して、並行して非同期処理を実行
+  const [tiresData, tireManufacturersData] = await Promise.all([
+    getTires(),
+    getTireManufacturers()
+  ])
 
   // データを props として渡す
   return {

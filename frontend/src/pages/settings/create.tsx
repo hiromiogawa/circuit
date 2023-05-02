@@ -4,7 +4,7 @@ import getMycars, { GetMycarType } from '@/functions/fetch/mycar/getMycars'
 import getTireManufacturers from '@/functions/fetch/tireManufacturers/getTireManufacturers'
 import getTires from '@/functions/fetch/tires/getTires'
 
-import SettingForm from '@/components/organisms/settingForm'
+import SettingForm from '@/components/organisms/SettingForm'
 
 import type { TireManufacturerType, TireType } from '@/types/data'
 
@@ -13,29 +13,19 @@ import { useRouter } from 'next/router'
 // components
 import Layout from '@/components/common/Layout'
 
-type PropTypes = CheckAuthType & {
-  mycars: GetMycarType[] | false
+type PropTypes = {
+  mycars: GetMycarType[]
   tireManufacturers: TireManufacturerType[]
   tires: TireType[]
   initialMycar: string
 }
 
 const CreateSetting = ({
-  isAuthenticated,
   mycars,
   tireManufacturers,
   tires,
   initialMycar
 }: PropTypes) => {
-  const router = useRouter()
-
-  if (!isAuthenticated) router.push('/login')
-  if (!mycars) router.push('/mycar/create')
-
-  if (!isAuthenticated || !mycars) {
-    return null
-  }
-
   return (
     <Layout>
       <SettingForm
@@ -63,6 +53,24 @@ export const getServerSideProps: GetServerSideProps = async (
     ])
 
   const initialMycar = context.query.mycar || ''
+
+  if (!authResult.isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
+  if (!myCarsData) {
+    return {
+      redirect: {
+        destination: '/mycar/create',
+        permanent: false
+      }
+    }
+  }
 
   return {
     props: {
