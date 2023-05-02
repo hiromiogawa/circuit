@@ -1,5 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import checkAuth, { CheckAuthType } from '@/functions/fetch/auth/checkAuth'
+import checkAuth from '@/functions/fetch/auth/checkAuth'
 import getMycars, { GetMycarType } from '@/functions/fetch/mycar/getMycars'
 import getTireManufacturers from '@/functions/fetch/tireManufacturers/getTireManufacturers'
 import getTires from '@/functions/fetch/tires/getTires'
@@ -7,8 +7,6 @@ import getTires from '@/functions/fetch/tires/getTires'
 import SettingForm from '@/components/organisms/SettingForm'
 
 import type { TireManufacturerType, TireType } from '@/types/data'
-
-import { useRouter } from 'next/router'
 
 // components
 import Layout from '@/components/common/Layout'
@@ -77,8 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (
       mycars: myCarsData,
       tireManufacturers: tireManufacturersData,
       initialMycar,
-      tires: tiresData,
-      ...authResult
+      tires: tiresData
     }
   }
 }
