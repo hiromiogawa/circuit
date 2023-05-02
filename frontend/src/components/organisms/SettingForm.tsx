@@ -163,7 +163,7 @@ const SettingForm = ({
           const result = await updateSetting(settingId, settingValue)
           if (result) {
             console.log(`Setting ${type} successfully`)
-            setParentSettingValue(settingValue)
+            setParentSettingValue(result.data)
             setIsEdit(false)
           }
         } catch (error: any) {
