@@ -18,7 +18,7 @@ type PropTypes = {
   tireManufacturers: TireManufacturerType[]
   tires: TireType[]
   initialSettingValue?: Partial<
-    Omit<SettingType, 'tireId' | 'mycarId' | '_id'>
+    Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'>
   > & {
     tireId?: string
     mycarId?: string
@@ -28,7 +28,7 @@ type PropTypes = {
   type: 'create' | 'put'
   //以下の値はputの場合のみ
   setParentSettingValue?: (
-    value: Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
+    value: Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
       tireId: string
       mycarId: string
       [key: string]: string
@@ -49,7 +49,7 @@ const SettingForm = ({
   settingId = ''
 }: PropTypes) => {
   const [settingValue, setSettingValue] = useState<
-    Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
+    Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
       tireId: string
       mycarId: string
       [key: string]: string

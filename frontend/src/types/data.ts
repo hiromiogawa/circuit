@@ -68,4 +68,5 @@ export type SettingType = {
   toeAngleFront: string
   toeAngleRear: string
   freeText: string
+  active: boolean
 }

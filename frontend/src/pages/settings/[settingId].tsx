@@ -31,7 +31,7 @@ const Setting = ({
 }: PropTypes) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [settingValue, setSettingValue] = useState<
-    Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
+    Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
       tireId?: string
       mycarId?: string
       [key: string]: string | undefined
@@ -64,7 +64,6 @@ const Setting = ({
   )
 
   useEffect(() => {
-    console.log(tires)
     if (tires && settingValue.tireId !== tire?._id)
       setTire(tires.find((tire) => tire._id === settingValue.tireId))
   }, [settingValue])
@@ -75,7 +74,7 @@ const Setting = ({
         <>
           <p>{setting.mycarId.userId.username}</p>
           <p>{setting.mycarId.carId.name}</p>
-          {/* <p>{tire ? tire.manufacturer : '_'}</p> */}
+          <p>{tire ? tire.manufacturer.name : '_'}</p>
           <p>{tire ? tire.name : '-'}</p>
           {settingList.map((field) => (
             <div key={field.name}>
@@ -96,7 +95,13 @@ const Setting = ({
             </div>
           ))}
           {isMySetting && (
-            <button onClick={() => setIsEdit(true)}>修正する</button>
+            <>
+              <button onClick={() => setIsEdit(true)}>修正する</button>
+              <button>削除する</button>
+            </>
+          )}
+          {isMySetting && !setting.active && (
+            <button>現在のセッティングに登録</button>
           )}
         </>
       ) : (

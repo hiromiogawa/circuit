@@ -3,13 +3,13 @@ import { SettingType } from '@/types/data'
 
 const updateSetting = async (
   _id: string,
-  data: Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
+  data: Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
     tireId: string
     mycarId: string
   }
 ): Promise<
   | {
-      data: Omit<SettingType, 'tireId' | 'mycarId'> & {
+      data: Omit<SettingType, 'tireId' | 'mycarId' | 'active'> & {
         tireId: string
         mycarId: string
       }

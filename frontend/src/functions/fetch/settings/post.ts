@@ -3,7 +3,7 @@ import axios from 'axios'
 import type { SettingType } from '@/types/data'
 
 const createSetting = async (
-  data: Omit<SettingType, 'tireId' | 'mycarId' | '_id'> & {
+  data: Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
     tireId: string
     mycarId: string
   }
