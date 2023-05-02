@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { settingList } from '@/config'
+import { useRouter } from 'next/router'
 
 // functions
 import getSetting from '@/functions/fetch/settings/get'
+import deleteSetting from '@/functions/fetch/settings/delete'
 import checkAuth from '@/functions/fetch/auth/checkAuth'
 import getTires from '@/functions/fetch/tires/getTires'
 import getTireManufacturers from '@/functions/fetch/tireManufacturers/getTireManufacturers'
@@ -63,6 +65,17 @@ const Setting = ({
     tires.find((tire) => tire._id === settingValue.tireId)
   )
 
+  const router = useRouter()
+
+  const handleDelete = async () => {
+    try {
+      const result = await deleteSetting(setting._id)
+      if (result) router.push('/')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
     if (tires && settingValue.tireId !== tire?._id)
       setTire(tires.find((tire) => tire._id === settingValue.tireId))
@@ -97,7 +110,7 @@ const Setting = ({
           {isMySetting && (
             <>
               <button onClick={() => setIsEdit(true)}>修正する</button>
-              <button>削除する</button>
+              <button onClick={handleDelete}>削除する</button>
             </>
           )}
           {isMySetting && !setting.active && (
