@@ -18,52 +18,58 @@ export class Setting extends Document {
   @Prop({ default: true })
   active: boolean
 
-  @Prop({ default: '-' })
-  airPressureFront: string
+  @Prop()
+  airPressureFrontLeft: string
 
-  @Prop({ default: '-' })
-  airPressureRear: string
+  @Prop()
+  airPressureFrontRight: string
 
-  @Prop({ default: '-' })
+  @Prop()
+  airPressureRearLeft: string
+
+  @Prop()
+  airPressureRearRight: string
+
+  @Prop()
   springRateFront: string
 
-  @Prop({ default: '-' })
+  @Prop()
   springRateRear: string
 
-  @Prop({ default: '-' })
+  @Prop()
   rideHeightFront: string
 
-  @Prop({ default: '-' })
+  @Prop()
   rideHeightRear: string
 
-  @Prop({ default: '-' })
+  @Prop()
   damperAdjustmentFront: string
 
-  @Prop({ default: '-' })
+  @Prop()
   damperAdjustmentRear: string
 
-  @Prop({ default: '-' })
+  @Prop()
   camberAngleFront: string
 
-  @Prop({ default: '-' })
+  @Prop()
   camberAngleRear: string
 
-  @Prop({ default: '-' })
+  @Prop()
   rearSpoiler: string
 
-  @Prop({ default: '-' })
+  @Prop()
   boostPressure: string
 
-  @Prop({ default: '-' })
+  @Prop()
   tireSizeFront: string
 
-  @Prop({ default: '-' })
+  @Prop()
   tireSizeRear: string
 
-  @Prop({ default: '-' })
+  @Prop()
   toeAngleFront: string
 
-  @Prop({ default: '-' })
+  @Prop()
   toeAngleRear: string
 }
 

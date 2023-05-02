@@ -10,8 +10,10 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
           data: {
             tireId: req.body.tireId,
             freeText: req.body.freeText,
-            airPressureFront: req.body.airPressureFront,
-            airPressureRear: req.body.airPressureRear,
+            airPressureFrontLeft: req.body.airPressureFrontLeft,
+            airPressureFrontRight: req.body.airPressureFrontRight,
+            airPressureRearLeft: req.body.airPressureRearLeft,
+            airPressureRearRight: req.body.airPressureRearRight,
             springRateFront: req.body.springRateFront,
             springRateRear: req.body.springRateRear,
             rideHeightFront: req.body.rideHeightFront,

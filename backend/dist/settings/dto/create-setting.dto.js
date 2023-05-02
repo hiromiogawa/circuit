@@ -14,20 +14,6 @@ const class_validator_1 = require("class-validator");
 class CreateSettingDto {
     constructor() {
         this.active = true;
-        this.airPressureFront = '-';
-        this.airPressureRear = '-';
-        this.springRateFront = '-';
-        this.springRateRear = '-';
-        this.rideHeightFront = '-';
-        this.rideHeightRear = '-';
-        this.damperAdjustmentFront = '-';
-        this.damperAdjustmentRear = '-';
-        this.camberAngleFront = '-';
-        this.camberAngleRear = '-';
-        this.rearSpoiler = '-';
-        this.boostPressure = '-';
-        this.tireSizeFront = '-';
-        this.tireSizeRear = '-';
     }
 }
 __decorate([
@@ -52,11 +38,19 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateSettingDto.prototype, "airPressureFront", void 0);
+], CreateSettingDto.prototype, "airPressureFrontLeft", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateSettingDto.prototype, "airPressureRear", void 0);
+], CreateSettingDto.prototype, "airPressureFrontRight", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateSettingDto.prototype, "airPressureRearLeft", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateSettingDto.prototype, "airPressureRearRight", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

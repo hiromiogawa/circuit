@@ -3,8 +3,10 @@ export declare class CreateSettingDto {
     readonly tireId: string;
     readonly freeText: string;
     readonly active: boolean;
-    readonly airPressureFront: string;
-    readonly airPressureRear: string;
+    readonly airPressureFrontLeft: string;
+    readonly airPressureFrontRight: string;
+    readonly airPressureRearLeft: string;
+    readonly airPressureRearRight: string;
     readonly springRateFront: string;
     readonly springRateRear: string;
     readonly rideHeightFront: string;

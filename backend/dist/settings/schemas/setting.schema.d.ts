@@ -28,8 +28,10 @@ export declare class Setting extends Document {
     tireId: Types.ObjectId;
     freeText: string;
     active: boolean;
-    airPressureFront: string;
-    airPressureRear: string;
+    airPressureFrontLeft: string;
+    airPressureFrontRight: string;
+    airPressureRearLeft: string;
+    airPressureRearRight: string;
     springRateFront: string;
     springRateRear: string;
     rideHeightFront: string;

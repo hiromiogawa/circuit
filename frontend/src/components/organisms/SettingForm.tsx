@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { settingList } from '@/config'
 
 // functions
 import createSetting from '@/functions/fetch/settings/post'
@@ -70,13 +71,21 @@ const SettingForm = ({
       initialSettingValue && initialSettingValue.tireSizeRear
         ? initialSettingValue.tireSizeRear
         : '',
-    airPressureFront:
-      initialSettingValue && initialSettingValue.airPressureFront
-        ? initialSettingValue.airPressureFront
+    airPressureFrontLeft:
+      initialSettingValue && initialSettingValue.airPressureFrontLeft
+        ? initialSettingValue.airPressureFrontLeft
         : '',
-    airPressureRear:
-      initialSettingValue && initialSettingValue.airPressureRear
-        ? initialSettingValue.airPressureRear
+    airPressureFrontRight:
+      initialSettingValue && initialSettingValue.airPressureFrontRight
+        ? initialSettingValue.airPressureFrontRight
+        : '',
+    airPressureRearLeft:
+      initialSettingValue && initialSettingValue.airPressureRearLeft
+        ? initialSettingValue.airPressureRearLeft
+        : '',
+    airPressureRearRight:
+      initialSettingValue && initialSettingValue.airPressureRearRight
+        ? initialSettingValue.airPressureRearRight
         : '',
     springRateFront:
       initialSettingValue && initialSettingValue.springRateFront
@@ -133,48 +142,6 @@ const SettingForm = ({
   })
 
   const router = useRouter()
-
-  const formFields: {
-    label: string
-    name: string
-    subFields: string[]
-  }[] = [
-    {
-      label: 'タイヤサイズ',
-      name: 'tireSize',
-      subFields: ['Front', 'Rear']
-    },
-    {
-      label: 'タイヤ空気圧',
-      name: 'airPressure',
-      subFields: ['Front', 'Rear']
-    },
-    {
-      label: 'バネレート',
-      name: 'springRate',
-      subFields: ['Front', 'Rear']
-    },
-    {
-      label: '車高',
-      name: 'rideHeight',
-      subFields: ['Front', 'Rear']
-    },
-    {
-      label: '減衰力',
-      name: 'damperAdjustment',
-      subFields: ['Front', 'Rear']
-    },
-    {
-      label: 'キャンバー角',
-      name: 'camberAngle',
-      subFields: ['Front', 'Rear']
-    },
-    {
-      label: 'トー角',
-      name: 'toeAngle',
-      subFields: ['Front', 'Rear']
-    }
-  ]
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -259,48 +226,31 @@ const SettingForm = ({
         />
       </div>
 
-      {formFields.map((field) => (
+      {settingList.map((field) => (
         <div key={field.name}>
           <p>{field.label}</p>
-          {field.subFields.map((subField) => (
-            <label key={`${field.name}${subField}`}>
-              {subField}
-              <input
-                name={`${field.name}${subField}`}
-                type="text"
-                value={settingValue[`${field.name}${subField}`]}
-                onChange={handleChange}
-              />
-            </label>
-          ))}
+          {field.subFields ? (
+            field.subFields.map((subField) => (
+              <label key={`${field.name}${subField}`}>
+                {subField}
+                <input
+                  name={`${field.name}${subField}`}
+                  type="text"
+                  value={settingValue[`${field.name}${subField}`]}
+                  onChange={handleChange}
+                />
+              </label>
+            ))
+          ) : (
+            <input
+              name={field.name}
+              type="text"
+              value={settingValue[field.name]}
+              onChange={handleChange}
+            />
+          )}
         </div>
       ))}
-
-      <div>
-        <p>リアスポイラ</p>
-        <input
-          name="rearSpoiler"
-          type="text"
-          value={settingValue.rearSpoiler}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <p>ブースト圧</p>
-        <input
-          name="boostPressure"
-          type="text"
-          value={settingValue.boostPressure}
-          onChange={handleChange}
-        />
-      </div>
-
-      <textarea
-        name="freeText"
-        onChange={handleChange}
-        value={settingValue.freeText}
-        placeholder="フリーテキスト (オプション)"
-      ></textarea>
 
       <button
         type="submit"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
+import { settingList } from '@/config'
 
 // functions
 import getSetting from '@/functions/fetch/settings/get'
@@ -8,7 +9,7 @@ import getTires from '@/functions/fetch/tires/getTires'
 import getTireManufacturers from '@/functions/fetch/tireManufacturers/getTireManufacturers'
 
 // components
-import SettingForm from '@/components/organisms/settingForm'
+import SettingForm from '@/components/organisms/SettingForm'
 
 //types
 import type { TireType, TireManufacturerType, SettingType } from '@/types/data'
@@ -39,8 +40,10 @@ const Setting = ({
     mycarId: setting.mycarId._id,
     tireId: setting.tireId._id,
     freeText: setting.freeText,
-    airPressureFront: setting.airPressureFront,
-    airPressureRear: setting.airPressureRear,
+    airPressureFrontLeft: setting.airPressureFrontLeft,
+    airPressureFrontRight: setting.airPressureFrontRight,
+    airPressureRearLeft: setting.airPressureRearLeft,
+    airPressureRearRight: setting.airPressureRearRight,
     springRateFront: setting.springRateFront,
     springRateRear: setting.springRateRear,
     rideHeightFront: setting.rideHeightFront,
@@ -56,7 +59,7 @@ const Setting = ({
     tireSizeFront: setting.tireSizeFront,
     tireSizeRear: setting.tireSizeRear
   })
-  const [tire, setTire] = useState(
+  const [tire, setTire] = useState<TireType | undefined>(
     tires.find((tire) => tire._id === settingValue.tireId)
   )
 
@@ -71,9 +74,26 @@ const Setting = ({
         <>
           <p>{setting.mycarId.userId.username}</p>
           <p>{setting.mycarId.carId.name}</p>
-          {/* <p>{tire?.manufacturer}</p> */}
-          <p>{tire?.name}</p>
-          <p>{setting.freeText}</p>
+          {/* <p>{tire ? tire.manufacturer : '_'}</p> */}
+          <p>{tire ? tire.name : '-'}</p>
+          {settingList.map((field) => (
+            <div key={field.name}>
+              <p>{field.label}</p>
+              {field.subFields ? (
+                field.subFields.map((subField) => (
+                  <div key={`${field.name}${subField}`}>
+                    <p>{subField}</p>
+                    <p>{settingValue[`${field.name}${subField}`]}</p>
+                  </div>
+                ))
+              ) : (
+                <div>
+                  <p>{field.name}</p>
+                  <p>{settingValue[field.name]}</p>
+                </div>
+              )}
+            </div>
+          ))}
           {isMySetting && (
             <button onClick={() => setIsEdit(true)}>修正する</button>
           )}

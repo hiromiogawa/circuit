@@ -13,33 +13,37 @@ export class CreateSettingDto {
   @IsNotEmpty()
   readonly active: boolean = true
   @IsString()
-  readonly airPressureFront: string = '-'
+  readonly airPressureFrontLeft: string
   @IsString()
-  readonly airPressureRear: string = '-'
+  readonly airPressureFrontRight: string
   @IsString()
-  readonly springRateFront: string = '-'
+  readonly airPressureRearLeft: string
   @IsString()
-  readonly springRateRear: string = '-'
+  readonly airPressureRearRight: string
   @IsString()
-  readonly rideHeightFront: string = '-'
+  readonly springRateFront: string
   @IsString()
-  readonly rideHeightRear: string = '-'
+  readonly springRateRear: string
   @IsString()
-  readonly damperAdjustmentFront: string = '-'
+  readonly rideHeightFront: string
   @IsString()
-  readonly damperAdjustmentRear: string = '-'
+  readonly rideHeightRear: string
   @IsString()
-  readonly camberAngleFront: string = '-'
+  readonly damperAdjustmentFront: string
   @IsString()
-  readonly camberAngleRear: string = '-'
+  readonly damperAdjustmentRear: string
   @IsString()
-  readonly rearSpoiler: string = '-'
+  readonly camberAngleFront: string
   @IsString()
-  readonly boostPressure: string = '-'
+  readonly camberAngleRear: string
   @IsString()
-  readonly tireSizeFront: string = '-'
+  readonly rearSpoiler: string
   @IsString()
-  readonly tireSizeRear: string = '-'
+  readonly boostPressure: string
+  @IsString()
+  readonly tireSizeFront: string
+  @IsString()
+  readonly tireSizeRear: string
   @IsString()
   readonly toeAngleFront: string
   @IsString()

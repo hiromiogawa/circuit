@@ -33,67 +33,75 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Setting.prototype, "active", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Setting.prototype, "airPressureFront", void 0);
+], Setting.prototype, "airPressureFrontLeft", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Setting.prototype, "airPressureRear", void 0);
+], Setting.prototype, "airPressureFrontRight", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Setting.prototype, "airPressureRearLeft", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Setting.prototype, "airPressureRearRight", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "springRateFront", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "springRateRear", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "rideHeightFront", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "rideHeightRear", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "damperAdjustmentFront", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "damperAdjustmentRear", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "camberAngleFront", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "camberAngleRear", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "rearSpoiler", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "boostPressure", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "tireSizeFront", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "tireSizeRear", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "toeAngleFront", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: '-' }),
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Setting.prototype, "toeAngleRear", void 0);
 Setting = __decorate([
