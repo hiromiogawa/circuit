@@ -59,9 +59,7 @@ const MyCar = ({ mycar, isMycar, setting }: PropTypes) => {
             <p>{value.tire.manufacturer.name}</p>
             <p>{value.tire.name}</p>
             {isMycar && (
-              <Link href={`/settings/${value._id}`}>
-                セッティングを修正する
-              </Link>
+              <Link href={`/settings/${value._id}`}>セッティングページ</Link>
             )}
           </div>
         ))}

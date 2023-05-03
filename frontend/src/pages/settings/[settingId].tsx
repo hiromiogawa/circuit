@@ -101,7 +101,6 @@ const Setting = ({
                 ))
               ) : (
                 <div>
-                  <p>{field.name}</p>
                   <p>{settingValue[field.name]}</p>
                 </div>
               )}
