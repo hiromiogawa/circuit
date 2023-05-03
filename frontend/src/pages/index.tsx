@@ -69,7 +69,7 @@ const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
     )
   } else {
     return (
-      <>
+      <Layout>
         <Link href="/login">
           <CircleButton>login</CircleButton>
         </Link>
@@ -77,7 +77,7 @@ const Home = ({ user, mycar, isAuthenticated }: PropTypes) => {
           <CircleButton>signup</CircleButton>
         </Link>
         <p>Please log in.</p>
-      </>
+      </Layout>
     )
   }
 }
