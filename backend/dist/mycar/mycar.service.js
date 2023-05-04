@@ -22,6 +22,7 @@ let MyCarService = class MyCarService {
         this.myCarModel = myCarModel;
     }
     async create(createMyCarDto) {
+        console.log(createMyCarDto);
         const newMyCar = new this.myCarModel(createMyCarDto);
         return newMyCar.save();
     }

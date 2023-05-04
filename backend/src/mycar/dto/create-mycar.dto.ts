@@ -1,12 +1,8 @@
-import { IsNotEmpty, IsString } from 'class-validator'
-import { Types } from 'mongoose'
+import { IsNotEmpty, IsString, IsMongoId } from 'class-validator'
 
 export class CreateMyCarDto {
   @IsNotEmpty()
   @IsString()
-  carId: Types.ObjectId
-
-  @IsNotEmpty()
-  @IsString()
-  userId: Types.ObjectId
+  @IsMongoId()
+  carId: string
 }

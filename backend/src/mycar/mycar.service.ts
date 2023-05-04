@@ -11,6 +11,7 @@ export class MyCarService {
   ) {}
 
   async create(createMyCarDto: CreateMyCarDto): Promise<MyCar> {
+    console.log(createMyCarDto)
     const newMyCar = new this.myCarModel(createMyCarDto)
     return newMyCar.save()
   }

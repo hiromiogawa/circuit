@@ -11,18 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMyCarDto = void 0;
 const class_validator_1 = require("class-validator");
-const mongoose_1 = require("mongoose");
 class CreateMyCarDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    __metadata("design:type", mongoose_1.Types.ObjectId)
+    (0, class_validator_1.IsMongoId)(),
+    __metadata("design:type", String)
 ], CreateMyCarDto.prototype, "carId", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", mongoose_1.Types.ObjectId)
-], CreateMyCarDto.prototype, "userId", void 0);
 exports.CreateMyCarDto = CreateMyCarDto;
 //# sourceMappingURL=create-mycar.dto.js.map
