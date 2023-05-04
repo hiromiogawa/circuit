@@ -7,11 +7,11 @@ import {
   Put,
   Delete,
   HttpStatus,
-  HttpCode,
-} from '@nestjs/common';
-import { TiresService } from './tires.service';
-import { Tire } from './schemas/tire.schema';
-import { CreateTireDto } from './dto/create-tire.dto';
+  HttpCode
+} from '@nestjs/common'
+import { TiresService } from './tires.service'
+import { Tire } from './schemas/tire.schema'
+import { CreateTireDto } from './dto/create-tire.dto'
 
 @Controller('tires')
 export class TiresController {
@@ -20,31 +20,31 @@ export class TiresController {
   @Post()
   @HttpCode(201)
   async create(@Body() createTireDto: CreateTireDto): Promise<Tire> {
-    return this.tiresService.create(createTireDto);
+    return this.tiresService.create(createTireDto)
   }
 
   @Get()
   async findAll(): Promise<Tire[]> {
-    return this.tiresService.findAll();
+    return this.tiresService.findAll()
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Tire> {
-    return this.tiresService.findOne(id);
+    return this.tiresService.findOne(id)
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async update(
     @Param('id') id: string,
-    @Body() updateTireDto: CreateTireDto,
+    @Body() updateTireDto: CreateTireDto
   ): Promise<void> {
-    return this.tiresService.update(id, updateTireDto);
+    return this.tiresService.update(id, updateTireDto)
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id') id: string): Promise<void> {
-    return this.tiresService.delete(id);
+    return this.tiresService.delete(id)
   }
 }

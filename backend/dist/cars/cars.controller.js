@@ -16,11 +16,14 @@ exports.CarsController = void 0;
 const common_1 = require("@nestjs/common");
 const cars_service_1 = require("./cars.service");
 const create_car_dto_1 = require("./dto/create-car.dto");
+const session_guard_1 = require("../auth/session.guard");
+const admin_guard_1 = require("../auth/admin.guard");
 let CarsController = class CarsController {
     constructor(carsService) {
         this.carsService = carsService;
     }
     async create(createCarDto) {
+        console.log(createCarDto);
         return this.carsService.create(createCarDto);
     }
     async findAll() {
@@ -44,6 +47,7 @@ let CarsController = class CarsController {
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(session_guard_1.SessionGuard, admin_guard_1.AdminGuard),
     (0, common_1.HttpCode)(201),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -79,6 +83,7 @@ __decorate([
 ], CarsController.prototype, "findByDraiveTrain", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.UseGuards)(session_guard_1.SessionGuard, admin_guard_1.AdminGuard),
     (0, common_1.HttpCode)(204),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -88,6 +93,7 @@ __decorate([
 ], CarsController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(session_guard_1.SessionGuard, admin_guard_1.AdminGuard),
     (0, common_1.HttpCode)(204),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

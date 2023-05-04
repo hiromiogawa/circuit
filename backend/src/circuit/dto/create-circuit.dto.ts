@@ -1,27 +1,27 @@
-import { IsString, MinLength, IsNumber } from 'class-validator';
+import { IsString, MinLength, IsNumber } from 'class-validator'
 
 export class CreateCircuitDto {
   @IsString()
   @MinLength(1)
-  name: string;
+  name: string
   @IsString()
   @MinLength(1)
-  location: string;
+  location: string
   @IsNumber()
   @MinLength(1)
-  distance: number;
+  distance: number
   @IsString()
   @MinLength(1)
-  layoutImageUrl: string;
+  layoutImageUrl: string
 }
 
 export class UpdateCircuitDto {
   @IsString()
-  name?: string;
+  name?: string
   @IsString()
-  location?: string;
+  location?: string
   @IsNumber()
-  distance?: number;
+  distance?: number
   @IsString()
-  layoutImageUrl?: string;
+  layoutImageUrl?: string
 }

@@ -13,7 +13,7 @@ export type ManufacturerType = {
   name: string
 }
 
-type DrivetrainType = {
+export type DrivetrainType = {
   _id: string
   system: string
 }
