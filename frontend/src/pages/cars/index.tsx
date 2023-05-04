@@ -10,7 +10,6 @@ import createCar from '@/functions/fetch/cars/post'
 
 // types
 import type { CarType, ManufacturerType, DrivetrainType } from '@/types/data'
-import { error } from 'console'
 
 type PropTypes = {
   cars: CarType[]

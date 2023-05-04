@@ -18,12 +18,12 @@ ManufacturersModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: manufacturer_schema_1.Manufacturer.name, schema: manufacturer_schema_1.ManufacturerSchema },
-            ]),
+                { name: manufacturer_schema_1.Manufacturer.name, schema: manufacturer_schema_1.ManufacturerSchema }
+            ])
         ],
         providers: [manufacturers_service_1.ManufacturersService],
         controllers: [manufacturers_controller_1.ManufacturersController],
-        exports: [manufacturers_service_1.ManufacturersService, mongoose_1.MongooseModule],
+        exports: [manufacturers_service_1.ManufacturersService, mongoose_1.MongooseModule]
     })
 ], ManufacturersModule);
 exports.ManufacturersModule = ManufacturersModule;

@@ -23,7 +23,6 @@ let CarsController = class CarsController {
         this.carsService = carsService;
     }
     async create(createCarDto) {
-        console.log(createCarDto);
         return this.carsService.create(createCarDto);
     }
     async findAll() {

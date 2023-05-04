@@ -19,7 +19,13 @@ export class CarsService {
 
   async create(createCarDto: CreateCarDto): Promise<Car> {
     const createdCar = new this.carModel(createCarDto)
-    return await createdCar.save()
+    await createdCar.save()
+    // 返却する値はリレーションの内容を含んだ値に変更
+    return this.carModel
+      .findById(createdCar._id)
+      .populate('manufacturer')
+      .populate('drivetrains')
+      .exec()
   }
 
   async findAll(): Promise<Car[]> {

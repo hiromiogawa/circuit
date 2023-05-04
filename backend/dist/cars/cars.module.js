@@ -21,11 +21,11 @@ CarsModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: car_schema_1.Car.name, schema: car_schema_1.CarSchema }]),
             manufacturers_module_1.ManufacturersModule,
-            drivetrains_module_1.DriveTrainsModule,
+            drivetrains_module_1.DriveTrainsModule
         ],
         providers: [cars_service_1.CarsService],
         controllers: [cars_controller_1.CarsController],
-        exports: [cars_service_1.CarsService, mongoose_1.MongooseModule],
+        exports: [cars_service_1.CarsService, mongoose_1.MongooseModule]
     })
 ], CarsModule);
 exports.CarsModule = CarsModule;

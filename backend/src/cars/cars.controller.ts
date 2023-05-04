@@ -23,7 +23,6 @@ export class CarsController {
   @UseGuards(SessionGuard, AdminGuard)
   @HttpCode(201)
   async create(@Body() createCarDto: CreateCarDto): Promise<Car> {
-    console.log(createCarDto)
     return this.carsService.create(createCarDto)
   }
 

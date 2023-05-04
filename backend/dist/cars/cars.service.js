@@ -27,7 +27,12 @@ let CarsService = class CarsService {
     }
     async create(createCarDto) {
         const createdCar = new this.carModel(createCarDto);
-        return await createdCar.save();
+        await createdCar.save();
+        return this.carModel
+            .findById(createdCar._id)
+            .populate('manufacturer')
+            .populate('drivetrains')
+            .exec();
     }
     async findAll() {
         return await this.carModel
