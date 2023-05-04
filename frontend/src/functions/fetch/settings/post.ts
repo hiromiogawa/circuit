@@ -15,7 +15,7 @@ const createSetting = async (
 
     return res
   } catch (error) {
-    console.error(error)
+    console.error(`${error}api`)
     return null
   }
 }

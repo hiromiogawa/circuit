@@ -179,8 +179,6 @@ export const getServerSideProps: GetServerSideProps = async (
   ])
   let sortCarsData
 
-  console.log(carsData)
-
   if (carsData)
     sortCarsData = carsData.sort((a, b) => {
       if (a.manufacturer.name < b.manufacturer.name) {

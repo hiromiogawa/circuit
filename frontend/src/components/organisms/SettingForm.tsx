@@ -138,15 +138,22 @@ const SettingForm = ({
         : ''
   })
 
+  const [errorMessage, setErrorMessage] = useState('')
+
   const router = useRouter()
+
+  const ErrorMessage = (
+    type: string,
+    setErrorMessage: (value: string) => void
+  ) => {
+    setErrorMessage('フォームに入力した値が正しくありません')
+    console.error(`Failed to ${type} setting`)
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log(settingValue)
-
-    console.log(typeof settingValue.rideHeightFront)
-    console.log(typeof settingValue.camberAngleFront)
+    setErrorMessage('')
 
     switch (type) {
       case 'create':
@@ -155,9 +162,11 @@ const SettingForm = ({
           if (result) {
             console.log(`Setting ${type} successfully`)
             router.push(`/settings/${result.data._id}`)
+          } else {
+            ErrorMessage(type, setErrorMessage)
           }
         } catch (error: any) {
-          console.error(`Failed to ${type} setting`)
+          ErrorMessage(type, setErrorMessage)
         }
         break
       case 'put':
@@ -167,9 +176,11 @@ const SettingForm = ({
             console.log(`Setting ${type} successfully`)
             setParentSettingValue(result.data)
             setIsEdit(false)
+          } else {
+            ErrorMessage(type, setErrorMessage)
           }
         } catch (error: any) {
-          console.error(`Failed to ${type} setting`)
+          ErrorMessage(type, setErrorMessage)
         }
         break
       default:
@@ -299,6 +310,8 @@ const SettingForm = ({
           )}
         </div>
       ))}
+
+      {errorMessage && <p>{errorMessage}</p>}
 
       <button
         type="submit"

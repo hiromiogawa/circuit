@@ -37,7 +37,6 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
           }
         )
 
-        console.log(backendRes.data)
         res.status(200).json(backendRes.data)
       } catch (error: any) {
         res.status(error.response.status).json(error.response.data)
@@ -64,7 +63,7 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
         )
         res.status(204).end()
       } catch (error) {
-        res.status(500).json({ message: 'Error deleting MyCar entry' })
+        res.status(500).json({ message: 'Error deleting setting entry' })
       }
 
     default:

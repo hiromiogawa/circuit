@@ -27,7 +27,6 @@ const CreateMyCar = ({ isAuthenticated, cars, manufacturers }: PropTypes) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const result = await createMycar(selectedCar)
-    console.log(result)
     if (!result) {
       console.error('Failed to create my car')
     } else {

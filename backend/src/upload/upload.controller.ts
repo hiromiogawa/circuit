@@ -22,7 +22,6 @@ export class UploadController {
           cb(null, path.join(__dirname, '../../../images'))
         },
         filename: (req, file, cb) => {
-          console.log(file)
           cb(null, `${Date.now()}-${file.originalname}`)
         }
       }),
