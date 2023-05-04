@@ -1,20 +1,30 @@
-import { IsString, MinLength, IsNumber, MaxLength } from 'class-validator'
+import {
+  IsString,
+  IsNumber,
+  IsNotEmpty,
+  IsMongoId,
+  Min,
+  Max
+} from 'class-validator'
 
 export class CreateCarDto {
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
   readonly name: string
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
   readonly modelName: string
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
+  @IsMongoId()
   readonly manufacturer: string
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
+  @IsMongoId()
   readonly drivetrains: string
   @IsNumber()
-  @MinLength(3)
-  @MaxLength(4)
+  @Min(99)
+  @Max(9999)
+  @IsNotEmpty()
   readonly displacement: number
 }

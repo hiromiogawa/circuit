@@ -8,6 +8,7 @@ type CreateCarType = {
 } & Omit<CarType, '_id' | 'drivetrains' | 'manufacturer'>
 
 const createCar = async (carData: CreateCarType) => {
+  console.log(typeof carData.displacement)
   try {
     const response = await axios.post('/api/cars', carData)
     return response.data

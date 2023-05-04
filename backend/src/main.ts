@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import * as session from 'express-session'
 import * as FileStore from 'session-file-store'
+import { ValidationPipe } from '@nestjs/common'
 
 const FileStoreSession = FileStore(session)
 
@@ -26,6 +27,8 @@ async function bootstrap() {
       })
     })
   )
+
+  app.useGlobalPipes(new ValidationPipe())
 
   await app.listen(3000)
 }

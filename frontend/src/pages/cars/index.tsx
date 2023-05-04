@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, ChangeEvent } from 'react'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 // myFunctions
@@ -29,15 +29,20 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
     manufacturer: '',
     name: '',
     modelName: '',
-    displacement: 0,
+    displacement: 2000,
     drivetrains: ''
   })
 
+  const convertNumberValue = (value: string): number | string => {
+    const convertedValue = Number(value)
+    return Number.isNaN(convertedValue) ? value : convertedValue
+  }
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target
-    setFormData((prevState) => ({ ...prevState, [name]: value }))
+    const convertedValue = convertNumberValue(value)
+    setFormData((prevState) => ({ ...prevState, [name]: convertedValue }))
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -48,6 +53,7 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
       if (result) {
         setCarList((prevState) => [...prevState, result])
       }
+      console.log(result)
     } catch (error: any) {
       console.error(`Failed to post cars`)
     }
@@ -99,7 +105,8 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
               </td>
               <td>
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
                   name="displacement"
                   value={formData.displacement}
                   onChange={handleChange}
@@ -176,6 +183,8 @@ export const getServerSideProps: GetServerSideProps = async (
     getDrivetrains()
   ])
   let sortCarsData
+
+  console.log(carsData)
 
   if (carsData)
     sortCarsData = carsData.sort((a, b) => {

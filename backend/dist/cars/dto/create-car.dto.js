@@ -15,28 +15,31 @@ class CreateCarDto {
 }
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(1),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateCarDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(1),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateCarDto.prototype, "modelName", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(1),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], CreateCarDto.prototype, "manufacturer", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(1),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], CreateCarDto.prototype, "drivetrains", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.MinLength)(3),
-    (0, class_validator_1.MaxLength)(4),
+    (0, class_validator_1.Min)(99),
+    (0, class_validator_1.Max)(9999),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], CreateCarDto.prototype, "displacement", void 0);
 exports.CreateCarDto = CreateCarDto;
