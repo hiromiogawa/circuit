@@ -7,6 +7,7 @@ import getCars from '@/functions/fetch/cars/get'
 import getManufacturers from '@/functions/fetch/manufacturers/getManufacturers'
 import getDrivetrains from '@/functions/fetch/driveTrains/get'
 import createCar from '@/functions/fetch/cars/post'
+import convertNumberValue from '@/functions/convertNumberValue'
 
 // types
 import type { CarType, ManufacturerType, DrivetrainType } from '@/types/data'
@@ -32,10 +33,6 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
     drivetrains: ''
   })
 
-  const convertNumberValue = (value: string): number | string => {
-    const convertedValue = Number(value)
-    return Number.isNaN(convertedValue) ? value : convertedValue
-  }
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -52,7 +49,6 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
       if (result) {
         setCarList((prevState) => [...prevState, result])
       }
-      console.log(result)
     } catch (error: any) {
       console.error(`Failed to post cars`)
     }

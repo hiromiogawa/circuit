@@ -11,7 +11,9 @@ import getTires from '@/functions/fetch/tires/getTires'
 import getTireManufacturers from '@/functions/fetch/tireManufacturers/getTireManufacturers'
 
 // components
-import SettingForm from '@/components/organisms/SettingForm'
+import SettingForm, {
+  SettingValueType
+} from '@/components/organisms/SettingForm'
 
 //types
 import type { TireType, TireManufacturerType, SettingType } from '@/types/data'
@@ -32,13 +34,7 @@ const Setting = ({
   settingId
 }: PropTypes) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [settingValue, setSettingValue] = useState<
-    Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
-      tireId?: string
-      mycarId?: string
-      [key: string]: string | undefined
-    }
-  >({
+  const [settingValue, setSettingValue] = useState<Partial<SettingValueType>>({
     mycarId: setting.mycarId._id,
     tireId: setting.tireId._id,
     freeText: setting.freeText,

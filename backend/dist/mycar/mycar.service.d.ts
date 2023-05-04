@@ -4,7 +4,7 @@ import { MyCar, MyCarDocument } from './schemas/mycar.schema';
 export declare class MyCarService {
     private myCarModel;
     constructor(myCarModel: Model<MyCarDocument>);
-    create(createMyCarDto: CreateMyCarDto): Promise<MyCar>;
+    create(createMyCarDto: CreateMyCarDto, userId: string): Promise<MyCar>;
     findByUserId(userId: string): Promise<MyCar[]>;
     findOne(id: string): Promise<MyCar>;
     update(id: string, userId: string, updateMyCarDto: CreateMyCarDto): Promise<void>;

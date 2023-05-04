@@ -23,8 +23,7 @@ let MyCarController = class MyCarController {
     }
     async create(req, createMyCarDto) {
         const userId = req.session.user._id;
-        createMyCarDto.userId = userId;
-        return this.myCarService.create(createMyCarDto);
+        return this.myCarService.create(createMyCarDto, userId);
     }
     async findMyCars(req) {
         const userId = req.session.user._id;

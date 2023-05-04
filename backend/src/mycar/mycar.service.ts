@@ -10,9 +10,12 @@ export class MyCarService {
     @InjectModel(MyCar.name) private myCarModel: Model<MyCarDocument>
   ) {}
 
-  async create(createMyCarDto: CreateMyCarDto): Promise<MyCar> {
-    console.log(createMyCarDto)
-    const newMyCar = new this.myCarModel(createMyCarDto)
+  async create(createMyCarDto: CreateMyCarDto, userId: string): Promise<MyCar> {
+    const myCarData = {
+      ...createMyCarDto,
+      userId
+    }
+    const newMyCar = new this.myCarModel(myCarData)
     return newMyCar.save()
   }
 

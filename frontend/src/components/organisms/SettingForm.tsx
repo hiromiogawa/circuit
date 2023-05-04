@@ -5,6 +5,7 @@ import { settingList } from '@/config'
 // functions
 import createSetting from '@/functions/fetch/settings/post'
 import updateSetting from '@/functions/fetch/updateSetting'
+import convertNumberValue from '@/functions/convertNumberValue'
 
 // components
 import SelectTire from '@/components/molecules/SelectTire'
@@ -13,25 +14,27 @@ import SelectTire from '@/components/molecules/SelectTire'
 import type { TireManufacturerType, TireType, SettingType } from '@/types/data'
 import type { GetMycarType } from '@/functions/fetch/mycar/getMycars'
 
+export type SettingValueType = Omit<
+  SettingType,
+  'tireId' | 'mycarId' | '_id' | 'active'
+> & {
+  tireId: string
+  mycarId: string
+  [key: string]: number | string | undefined | null
+}
+
 type PropTypes = {
   mycars?: GetMycarType[]
   tireManufacturers: TireManufacturerType[]
   tires: TireType[]
-  initialSettingValue?: Partial<
-    Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'>
-  > & {
-    tireId?: string
-    mycarId?: string
-    tireManufacturerId?: string
-    [key: string]: string | undefined
-  }
+  initialSettingValue?: Partial<SettingValueType>
   type: 'create' | 'put'
   //以下の値はputの場合のみ
   setParentSettingValue?: (
     value: Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
       tireId: string
       mycarId: string
-      [key: string]: string
+      [key: string]: number | string | undefined | null
     }
   ) => void
   setIsEdit?: (value: boolean) => void
@@ -48,13 +51,7 @@ const SettingForm = ({
   setIsEdit = () => {},
   settingId = ''
 }: PropTypes) => {
-  const [settingValue, setSettingValue] = useState<
-    Omit<SettingType, 'tireId' | 'mycarId' | '_id' | 'active'> & {
-      tireId: string
-      mycarId: string
-      [key: string]: string
-    }
-  >({
+  const [settingValue, setSettingValue] = useState<SettingValueType>({
     mycarId:
       initialSettingValue && initialSettingValue.mycarId
         ? initialSettingValue.mycarId
@@ -74,59 +71,59 @@ const SettingForm = ({
     airPressureFrontLeft:
       initialSettingValue && initialSettingValue.airPressureFrontLeft
         ? initialSettingValue.airPressureFrontLeft
-        : '',
+        : null,
     airPressureFrontRight:
       initialSettingValue && initialSettingValue.airPressureFrontRight
         ? initialSettingValue.airPressureFrontRight
-        : '',
+        : null,
     airPressureRearLeft:
       initialSettingValue && initialSettingValue.airPressureRearLeft
         ? initialSettingValue.airPressureRearLeft
-        : '',
+        : null,
     airPressureRearRight:
       initialSettingValue && initialSettingValue.airPressureRearRight
         ? initialSettingValue.airPressureRearRight
-        : '',
+        : null,
     springRateFront:
       initialSettingValue && initialSettingValue.springRateFront
         ? initialSettingValue.springRateFront
-        : '',
+        : null,
     springRateRear:
       initialSettingValue && initialSettingValue.springRateRear
         ? initialSettingValue.springRateRear
-        : '',
+        : null,
     rideHeightFront:
       initialSettingValue && initialSettingValue.rideHeightFront
         ? initialSettingValue.rideHeightFront
-        : '',
+        : null,
     rideHeightRear:
       initialSettingValue && initialSettingValue.rideHeightRear
         ? initialSettingValue.rideHeightRear
-        : '',
+        : null,
     damperAdjustmentFront:
       initialSettingValue && initialSettingValue.damperAdjustmentFront
         ? initialSettingValue.damperAdjustmentFront
-        : '',
+        : null,
     damperAdjustmentRear:
       initialSettingValue && initialSettingValue.damperAdjustmentRear
         ? initialSettingValue.damperAdjustmentRear
-        : '',
+        : null,
     camberAngleFront:
       initialSettingValue && initialSettingValue.camberAngleFront
         ? initialSettingValue.camberAngleFront
-        : '',
+        : null,
     camberAngleRear:
       initialSettingValue && initialSettingValue.camberAngleRear
         ? initialSettingValue.camberAngleRear
-        : '',
+        : null,
     toeAngleFront:
       initialSettingValue && initialSettingValue.toeAngleFront
         ? initialSettingValue.toeAngleFront
-        : '',
+        : null,
     toeAngleRear:
       initialSettingValue && initialSettingValue.toeAngleRear
         ? initialSettingValue.toeAngleRear
-        : '',
+        : null,
     rearSpoiler:
       initialSettingValue && initialSettingValue.rearSpoiler
         ? initialSettingValue.rearSpoiler
@@ -134,7 +131,7 @@ const SettingForm = ({
     boostPressure:
       initialSettingValue && initialSettingValue.boostPressure
         ? initialSettingValue.boostPressure
-        : '',
+        : null,
     freeText:
       initialSettingValue && initialSettingValue.freeText
         ? initialSettingValue.freeText
@@ -145,6 +142,11 @@ const SettingForm = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    console.log(settingValue)
+
+    console.log(typeof settingValue.rideHeightFront)
+    console.log(typeof settingValue.camberAngleFront)
 
     switch (type) {
       case 'create':
@@ -181,7 +183,8 @@ const SettingForm = ({
     >
   ) => {
     const { name, value } = e.target
-    setSettingValue((prevState) => ({ ...prevState, [name]: value }))
+    const convertedValue = convertNumberValue(value)
+    setSettingValue((prevState) => ({ ...prevState, [name]: convertedValue }))
   }
 
   return (
@@ -219,7 +222,8 @@ const SettingForm = ({
             initialSettingValue.tireManufacturerId
               ? {
                   tireId: initialSettingValue.tireId,
-                  manufacturerId: initialSettingValue.tireManufacturerId
+                  manufacturerId:
+                    initialSettingValue.tireManufacturerId.toString()
                 }
               : false
           }
@@ -233,21 +237,65 @@ const SettingForm = ({
             field.subFields.map((subField) => (
               <label key={`${field.name}${subField}`}>
                 {subField}
-                <input
-                  name={`${field.name}${subField}`}
-                  type="text"
-                  value={settingValue[`${field.name}${subField}`]}
-                  onChange={handleChange}
-                />
+                {field.type === 'textArea' ? (
+                  <textarea
+                    name={`${field.name}${subField}`}
+                    value={settingValue[`${field.name}${subField}`] || ''}
+                    onChange={handleChange}
+                    placeholder={field.placeholder}
+                  />
+                ) : (
+                  <>
+                    <input
+                      name={`${field.name}${subField}`}
+                      type={field.type === 'number' ? 'number' : 'text'}
+                      step={field.type === 'number' ? '0.1' : ''}
+                      inputMode={
+                        field.type === 'number'
+                          ? 'decimal'
+                          : field.type === 'numeric'
+                          ? 'numeric'
+                          : 'text'
+                      }
+                      value={settingValue[`${field.name}${subField}`] || ''}
+                      onChange={handleChange}
+                      placeholder={field.placeholder}
+                    />
+                    {field.unit && <span>{field.unit}</span>}
+                  </>
+                )}
               </label>
             ))
           ) : (
-            <input
-              name={field.name}
-              type="text"
-              value={settingValue[field.name]}
-              onChange={handleChange}
-            />
+            <>
+              {field.type === 'textArea' ? (
+                <textarea
+                  name={field.name}
+                  value={settingValue[field.name] || ''}
+                  onChange={handleChange}
+                  placeholder={field.placeholder}
+                />
+              ) : (
+                <>
+                  <input
+                    name={field.name}
+                    type={field.type === 'number' ? 'number' : 'text'}
+                    step={field.type === 'number' ? '0.1' : ''}
+                    inputMode={
+                      field.type === 'number'
+                        ? 'decimal'
+                        : field.type === 'numeric'
+                        ? 'numeric'
+                        : 'text'
+                    }
+                    value={settingValue[field.name] || ''}
+                    onChange={handleChange}
+                    placeholder={field.placeholder}
+                  />
+                  {field.unit && <span>{field.unit}</span>}
+                </>
+              )}
+            </>
           )}
         </div>
       ))}

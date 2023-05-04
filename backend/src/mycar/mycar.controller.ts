@@ -29,8 +29,7 @@ export class MyCarController {
     @Body() createMyCarDto: CreateMyCarDto
   ): Promise<MyCar> {
     const userId = req.session.user._id
-    createMyCarDto.userId = userId
-    return this.myCarService.create(createMyCarDto)
+    return this.myCarService.create(createMyCarDto, userId)
   }
 
   @Get()

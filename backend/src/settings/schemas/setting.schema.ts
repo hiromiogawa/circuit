@@ -19,46 +19,46 @@ export class Setting extends Document {
   active: boolean
 
   @Prop()
-  airPressureFrontLeft: string
+  airPressureFrontLeft: number
 
   @Prop()
-  airPressureFrontRight: string
+  airPressureFrontRight: number
 
   @Prop()
-  airPressureRearLeft: string
+  airPressureRearLeft: number
 
   @Prop()
-  airPressureRearRight: string
+  airPressureRearRight: number
 
   @Prop()
-  springRateFront: string
+  springRateFront: number
 
   @Prop()
-  springRateRear: string
+  springRateRear: number
 
   @Prop()
-  rideHeightFront: string
+  rideHeightFront: number
 
   @Prop()
-  rideHeightRear: string
+  rideHeightRear: number
 
   @Prop()
-  damperAdjustmentFront: string
+  damperAdjustmentFront: number
 
   @Prop()
-  damperAdjustmentRear: string
+  damperAdjustmentRear: number
 
   @Prop()
-  camberAngleFront: string
+  camberAngleFront: number
 
   @Prop()
-  camberAngleRear: string
+  camberAngleRear: number
 
   @Prop()
   rearSpoiler: string
 
   @Prop()
-  boostPressure: string
+  boostPressure: number
 
   @Prop()
   tireSizeFront: string
@@ -67,10 +67,10 @@ export class Setting extends Document {
   tireSizeRear: string
 
   @Prop()
-  toeAngleFront: string
+  toeAngleFront: number
 
   @Prop()
-  toeAngleRear: string
+  toeAngleRear: number
 }
 
 export const SettingSchema = SchemaFactory.createForClass(Setting)

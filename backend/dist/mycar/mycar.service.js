@@ -21,9 +21,9 @@ let MyCarService = class MyCarService {
     constructor(myCarModel) {
         this.myCarModel = myCarModel;
     }
-    async create(createMyCarDto) {
-        console.log(createMyCarDto);
-        const newMyCar = new this.myCarModel(createMyCarDto);
+    async create(createMyCarDto, userId) {
+        const myCarData = Object.assign(Object.assign({}, createMyCarDto), { userId });
+        const newMyCar = new this.myCarModel(myCarData);
         return newMyCar.save();
     }
     async findByUserId(userId) {

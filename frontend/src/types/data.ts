@@ -49,24 +49,24 @@ export type SettingType = {
   _id: string
   mycarId: MyCarType
   tireId: TireType
-  airPressureFrontLeft: string
-  airPressureFrontRight: string
-  airPressureRearLeft: string
-  airPressureRearRight: string
-  springRateFront: string
-  springRateRear: string
-  rideHeightFront: string
-  rideHeightRear: string
-  damperAdjustmentFront: string
-  damperAdjustmentRear: string
-  camberAngleFront: string
-  camberAngleRear: string
+  airPressureFrontLeft: number | null
+  airPressureFrontRight: number | null
+  airPressureRearLeft: number | null
+  airPressureRearRight: number | null
+  springRateFront: number | null
+  springRateRear: number | null
+  rideHeightFront: number | null
+  rideHeightRear: number | null
+  damperAdjustmentFront: number | null
+  damperAdjustmentRear: number | null
+  camberAngleFront: number | null
+  camberAngleRear: number | null
   rearSpoiler: string
-  boostPressure: string
+  boostPressure: number | null
   tireSizeFront: string
   tireSizeRear: string
-  toeAngleFront: string
-  toeAngleRear: string
+  toeAngleFront: number | null
+  toeAngleRear: number | null
   freeText: string
   active: boolean
 }

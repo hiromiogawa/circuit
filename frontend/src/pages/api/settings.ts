@@ -37,6 +37,7 @@ const settingEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
           }
         )
 
+        console.log(backendRes.data)
         res.status(200).json(backendRes.data)
       } catch (error: any) {
         res.status(error.response.status).json(error.response.data)

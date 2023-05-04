@@ -1,51 +1,82 @@
-import { IsString, MinLength, IsNotEmpty } from 'class-validator'
+import {
+  IsString,
+  IsNumber,
+  MinLength,
+  IsNotEmpty,
+  IsMongoId,
+  IsOptional,
+  Min,
+  Max
+} from 'class-validator'
 
 export class CreateSettingDto {
   @IsString()
   @MinLength(1)
+  @IsNotEmpty()
+  @IsMongoId()
   readonly mycarId: string
   @IsString()
   @MinLength(1)
+  @IsNotEmpty()
+  @IsMongoId()
   readonly tireId: string
-  @IsString()
-  @MinLength(1)
-  readonly freeText: string
   @IsNotEmpty()
   readonly active: boolean = true
-  @IsString()
-  readonly airPressureFrontLeft: string
-  @IsString()
-  readonly airPressureFrontRight: string
-  @IsString()
-  readonly airPressureRearLeft: string
-  @IsString()
-  readonly airPressureRearRight: string
-  @IsString()
-  readonly springRateFront: string
-  @IsString()
-  readonly springRateRear: string
-  @IsString()
-  readonly rideHeightFront: string
-  @IsString()
-  readonly rideHeightRear: string
-  @IsString()
-  readonly damperAdjustmentFront: string
-  @IsString()
-  readonly damperAdjustmentRear: string
-  @IsString()
-  readonly camberAngleFront: string
-  @IsString()
-  readonly camberAngleRear: string
+  @IsOptional()
+  @IsNumber()
+  readonly airPressureFrontLeft: number
+  @IsOptional()
+  @IsNumber()
+  readonly airPressureFrontRight: number
+  @IsOptional()
+  @IsNumber()
+  readonly airPressureRearLeft: number
+  @IsOptional()
+  @IsNumber()
+  readonly airPressureRearRight: number
+  @IsOptional()
+  @IsNumber()
+  readonly springRateFront: number
+  @IsOptional()
+  @IsNumber()
+  readonly springRateRear: number
+  @IsOptional()
+  @IsNumber()
+  readonly rideHeightFront: number
+  @IsOptional()
+  @IsNumber()
+  readonly rideHeightRear: number
+  @IsOptional()
+  @IsNumber()
+  readonly damperAdjustmentFront: number
+  @IsOptional()
+  @IsNumber()
+  readonly damperAdjustmentRear: number
+  @IsOptional()
+  @IsNumber()
+  readonly camberAngleFront: number
+  @IsOptional()
+  @IsNumber()
+  readonly camberAngleRear: number
+  @IsOptional()
   @IsString()
   readonly rearSpoiler: string
-  @IsString()
-  readonly boostPressure: string
+  @IsOptional()
+  @IsNumber()
+  readonly boostPressure: number
+  @IsOptional()
   @IsString()
   readonly tireSizeFront: string
+  @IsOptional()
   @IsString()
   readonly tireSizeRear: string
+  @IsOptional()
+  @IsNumber()
+  readonly toeAngleFront: number
+  @IsOptional()
+  @IsNumber()
+  readonly toeAngleRear: number
   @IsString()
-  readonly toeAngleFront: string
-  @IsString()
-  readonly toeAngleRear: string
+  @IsOptional()
+  readonly freeText: string
 }
