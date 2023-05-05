@@ -7,7 +7,7 @@ import checkAuth from '@/functions/fetch/auth/checkAuth'
 import deleteMyCar from '@/functions/fetch/mycar/deleteMycar'
 import getActiveSettingsByMyCarId, {
   GetActiveSettingsByMyCarIdType
-} from '@/functions/fetch/settings/getActiveByMyCarIdType'
+} from '@/functions/fetch/settings/getActiveByMycarId'
 
 // components
 import Link from 'next/link'
