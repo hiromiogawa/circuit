@@ -11,6 +11,8 @@ import convertNumberValue from '@/functions/convertNumberValue'
 
 // components
 import Link from 'next/link'
+import SelectManufacturers from '@/components/atoms/button/SelectManufacturers'
+import SelectDriveTrains from '@/components/atoms/button/SelectDriveTrains'
 
 // types
 import type { CarType, ManufacturerType, DrivetrainType } from '@/types/data'
@@ -72,18 +74,11 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
           <tbody>
             <tr>
               <td>
-                <select
-                  name="manufacturer"
+                <SelectManufacturers
                   value={formData.manufacturer}
-                  onChange={handleChange}
-                >
-                  <option value="">選択してください</option>
-                  {manufacturers.map((manufacuturer) => (
-                    <option key={manufacuturer._id} value={manufacuturer._id}>
-                      {manufacuturer.name}
-                    </option>
-                  ))}
-                </select>
+                  handleChange={handleChange}
+                  manufacturers={manufacturers}
+                />
               </td>
               <td>
                 <input
@@ -111,18 +106,11 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
                 />
               </td>
               <td>
-                <select
-                  name="drivetrains"
+                <SelectDriveTrains
+                  driveTrains={drivetrains}
                   value={formData.drivetrains}
-                  onChange={handleChange}
-                >
-                  <option value="">選択してください</option>
-                  {drivetrains.map((drivetrain) => (
-                    <option key={drivetrain._id} value={drivetrain._id}>
-                      {drivetrain.system}
-                    </option>
-                  ))}
-                </select>
+                  handleChange={handleChange}
+                />
               </td>
             </tr>
           </tbody>
