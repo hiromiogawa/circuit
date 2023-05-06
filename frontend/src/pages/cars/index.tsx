@@ -3,11 +3,14 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 // myFunctions
 import checkAuth from '@/functions/fetch/auth/checkAuth'
-import getCars from '@/functions/fetch/cars/get'
+import getCars from '@/functions/fetch/cars/getCars'
 import getManufacturers from '@/functions/fetch/manufacturers/getManufacturers'
 import getDrivetrains from '@/functions/fetch/driveTrains/get'
 import createCar from '@/functions/fetch/cars/post'
 import convertNumberValue from '@/functions/convertNumberValue'
+
+// components
+import Link from 'next/link'
 
 // types
 import type { CarType, ManufacturerType, DrivetrainType } from '@/types/data'
@@ -142,7 +145,9 @@ const Cars = ({ cars, manufacturers, drivetrains }: PropTypes) => {
         <tbody>
           {carList.map((car) => (
             <tr key={car._id}>
-              <td>{car._id}</td>
+              <td>
+                <Link href={`/cars/${car._id}`}>{car._id}</Link>
+              </td>
               <td>{car.manufacturer.name}</td>
               <td>{car.name}</td>
               <td>{car.modelName}</td>
