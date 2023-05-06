@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 
 const SignUp = () => {
@@ -20,8 +20,9 @@ const SignUp = () => {
         password
       })
       router.push('/login')
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (
+        error instanceof AxiosError &&
         error.response &&
         error.response.data &&
         error.response.data.message

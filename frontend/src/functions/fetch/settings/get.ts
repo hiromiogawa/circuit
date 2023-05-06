@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import type { SettingType } from '@/types/data'
 
-const getSetting = async (id: string): Promise<SettingType | false> => {
+const getSetting = async (id: string): Promise<SettingType | null> => {
   try {
     const res: {
       data: SettingType
@@ -10,8 +10,18 @@ const getSetting = async (id: string): Promise<SettingType | false> => {
     )
 
     return res.data
-  } catch (error) {
-    return false
+  } catch (error: unknown) {
+    if (
+      error instanceof AxiosError &&
+      error.response &&
+      error.response.data &&
+      error.response.data.message
+    ) {
+      console.error(
+        `Error: ${error.response.status} - ${error.response.data.message}`
+      )
+    }
+    return null
   }
 }
 

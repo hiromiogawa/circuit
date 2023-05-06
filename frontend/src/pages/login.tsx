@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 
 const LoginPage = () => {
@@ -15,9 +15,17 @@ const LoginPage = () => {
     try {
       await axios.post('/api/auth/login', { email, password })
       router.push('/')
-    } catch (error) {
-      console.log(error)
-      setError('メールアドレスまたはパスワードが間違っています。')
+    } catch (error: unknown) {
+      if (
+        error instanceof AxiosError &&
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message)
+      } else {
+        setError('ログインに失敗しました。')
+      }
     }
   }
 
