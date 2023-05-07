@@ -29,6 +29,26 @@ const carEndPoint = async (req: NextApiRequest, res: NextApiResponse) => {
       }
       break
 
+    case 'PUT':
+      console.log(req.body)
+      try {
+        const backendRes = await axios.put(
+          `${process.env.NEXT_PUBLIC_SERVICE_DOMAIN}/cars/${req.body._id}`,
+          req.body,
+          {
+            headers: {
+              cookie: req.headers.cookie || ''
+            },
+            withCredentials: true
+          }
+        )
+
+        res.status(200).json(backendRes.data)
+      } catch (error: any) {
+        res.status(error.response.status).json(error.response.data)
+      }
+      break
+
     case 'DELETE':
       const { id } = req.query
 

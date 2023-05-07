@@ -8,6 +8,7 @@ import getCar from '@/functions/fetch/cars/getCar'
 import convertNumberValue from '@/functions/convertNumberValue'
 import getManufacturers from '@/functions/fetch/manufacturers/getManufacturers'
 import getDrivetrains from '@/functions/fetch/driveTrains/get'
+import updateCar from '@/functions/fetch/cars/put'
 import deleteCar from '@/functions/fetch/cars/delete'
 
 // components
@@ -25,7 +26,25 @@ type PropTypes = {
 
 const Car = ({ car, manufacturers, driveTrains }: PropTypes) => {
   const [carValue, setCarValue] = useState<CarType>(car)
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    setErrorMessage('')
+
+    const data = {
+      _id: carValue._id,
+      name: carValue.name,
+      modelName: carValue.modelName,
+      manufacturer: carValue.manufacturer._id,
+      drivetrains: carValue.drivetrains._id,
+      displacement: carValue.displacement
+    }
+
+    await updateCar(data)
+  }
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -50,7 +69,7 @@ const Car = ({ car, manufacturers, driveTrains }: PropTypes) => {
 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <table>
           <thead>
             <tr>
