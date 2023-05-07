@@ -8,6 +8,7 @@ import getCar from '@/functions/fetch/cars/getCar'
 import convertNumberValue from '@/functions/convertNumberValue'
 import getManufacturers from '@/functions/fetch/manufacturers/getManufacturers'
 import getDrivetrains from '@/functions/fetch/driveTrains/get'
+import deleteCar from '@/functions/fetch/cars/delete'
 
 // components
 import SelectManufacturers from '@/components/atoms/button/SelectManufacturers'
@@ -36,16 +37,16 @@ const Car = ({ car, manufacturers, driveTrains }: PropTypes) => {
     setCarValue((prevState) => ({ ...prevState, [name]: convertedValue }))
   }
 
-  // const handleDelete = async () => {
-  //   if (window.confirm('マイカーから削除しますか？')) {
-  //     try {
-  //       await deleteMyCar(mycar._id)
-  //       router.push('/')
-  //     } catch (error: any) {
-  //       window.alert(`削除に失敗しました: ${error.message}`)
-  //     }
-  //   }
-  // }
+  const handleDelete = async () => {
+    if (window.confirm('削除しますか？')) {
+      try {
+        await deleteCar(car._id)
+        router.push('/cars/')
+      } catch (error: any) {
+        window.alert(`削除に失敗しました: ${error.message}`)
+      }
+    }
+  }
 
   return (
     <>
@@ -119,6 +120,7 @@ const Car = ({ car, manufacturers, driveTrains }: PropTypes) => {
           変更
         </button>
       </form>
+      <button onClick={handleDelete}>削除する</button>
     </>
   )
 }

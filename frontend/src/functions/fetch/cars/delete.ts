@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const deleteSetting = async (id: string) => {
+const deleteCar = async (id: string) => {
   try {
     await axios.delete(`/api/cars/`, { params: { id } })
     return true
@@ -10,4 +10,4 @@ const deleteSetting = async (id: string) => {
   }
 }
 
-export default deleteSetting
+export default deleteCar
