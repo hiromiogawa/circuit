@@ -1,6 +1,10 @@
 import { AxiosError } from 'axios'
 
-const handleAxiosError = (error: AxiosError): null => {
+type ErrorResponse = {
+  message: string
+}
+
+const handleAxiosError = (error: AxiosError<ErrorResponse>): null => {
   if (error.response && error.response.data && error.response.data.message) {
     // サーバーからのレスポンスがある場合
     console.error(

@@ -36,8 +36,6 @@ const Car = ({ car, manufacturers, driveTrains }: PropTypes) => {
     setCarValue((prevState) => ({ ...prevState, [name]: convertedValue }))
   }
 
-  console.log(carValue)
-
   // const handleDelete = async () => {
   //   if (window.confirm('マイカーから削除しますか？')) {
   //     try {
