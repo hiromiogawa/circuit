@@ -139,6 +139,7 @@ const Car = ({ car, manufacturers, driveTrains }: PropTypes) => {
           変更
         </button>
       </form>
+      {errorMessage && <p>{errorMessage}</p>}
       <button onClick={handleDelete}>削除する</button>
     </>
   )
