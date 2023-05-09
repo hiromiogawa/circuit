@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
+import handleAxiosError from '../handleAxiosError'
 
 import type { CarType } from '@/types/data'
 
@@ -11,8 +12,12 @@ const createCar = async (carData: CreateCarType) => {
   try {
     const response = await axios.post('/api/cars', carData)
     return response.data
-  } catch (error) {
-    console.error('Failed to create car', error)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      handleAxiosError(error)
+    } else {
+      console.error('/api/carsの接続に失敗しました:', error)
+    }
     return null
   }
 }

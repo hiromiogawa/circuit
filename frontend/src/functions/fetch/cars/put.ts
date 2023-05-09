@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
+import handleAxiosError from '../handleAxiosError'
 
 import type { CarType } from '@/types/data'
 
@@ -14,8 +15,12 @@ const updateCar = async (
     })
 
     return res
-  } catch (error) {
-    console.error(error)
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      handleAxiosError(error)
+    } else {
+      console.error('/api/carsの接続に失敗しました:', error)
+    }
     return null
   }
 }

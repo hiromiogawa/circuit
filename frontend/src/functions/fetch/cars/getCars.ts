@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
+import handleAxiosError from '../handleAxiosError'
 
 import type { CarType } from '@/types/data'
 
@@ -10,12 +11,13 @@ const getCars = async () => {
     )
     const cars = backendRes.data
     return cars
-  } catch (error: any) {
-    console.error(
-      '車一覧情報の取得に失敗しました:',
-      error.message,
-      error.response
-    )
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      handleAxiosError(error)
+    } else {
+      console.error('/api/carsの接続に失敗しました:', error)
+    }
+    return null
   }
 }
 
