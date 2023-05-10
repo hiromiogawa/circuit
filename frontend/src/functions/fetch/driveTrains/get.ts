@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
+import handleAxiosError from '../handleAxiosError'
 
 import type { DrivetrainType } from '@/types/data'
 
@@ -10,12 +11,13 @@ const getDrivetrains = async () => {
     )
     const drivetrains = backendRes.data
     return drivetrains
-  } catch (error: any) {
-    console.error(
-      '駆動方式の取得に失敗しました:',
-      error.message,
-      error.response
-    )
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      handleAxiosError(error)
+    } else {
+      console.error('drivetrainsの接続に失敗しました:', error)
+    }
+    return null
   }
 }
 
